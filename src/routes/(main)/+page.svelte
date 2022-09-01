@@ -1,3 +1,37 @@
+<script>
+	// @ts-nocheck
+
+	import { onMount } from 'svelte';
+	import cssBanner from '$lib/banner.js';
+
+	onMount(() => {
+		innerHtml = element.innerHTML;
+	});
+
+	let element;
+	let innerHtml;
+	let scriptTag;
+
+	function getScriptTag() {
+		let func = () => {
+			window.addEventListener('load', (event) => {
+				console.log('page is fully loaded');
+				document.querySelector('body').insertAdjacentHTML('afterbegin', `innerHtml`);
+				document.getElementById('close_climatestrike').addEventListener('click', (event) => {
+					event.preventDefault();
+					document.getElementById('banner_climatestrike').style.display = 'none';
+				});
+			});
+		};
+
+		console.log(String(func));
+		let scriptString = String(func).replace('innerHtml', innerHtml);
+		let regex = /(?:\s)\s/g;
+		scriptString = scriptString.replace(regex, '');
+		return `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script> ${cssBanner}`;
+	}
+</script>
+
 <body>
 	<div class="section has-mw-5xl mx-auto">
 		<div>
@@ -17,6 +51,7 @@
 
 		<div>
 			<div class="section container">
+				<div class="close" id="close_climatestrike" />
 				<h1 class="title is-spaced is-2 my-6 is-size-3-desktop is-size-4">
 					Add a smart and customized strike banner to your website and show that you care!
 				</h1>
@@ -99,9 +134,16 @@
 						</div>
 					</div>
 
-					<a class="button is-medium is-primary is-responsive " href="#">Generate Script</a>
+					<a
+						on:click={() => {
+							scriptTag = getScriptTag();
+							console.log(scriptTag);
+						}}
+						class="button is-medium is-primary is-responsive "
+						href="#">Generate Script</a
+					>
 
-					<section class="mt-6 py-6 section">
+					<section class="mt-6 py-6 section" id="banner_climatestrike" bind:this={element}>
 						<div class="container">
 							<div
 								class="py-6 px-5 is-relative has-background-info has-text-centered"
@@ -222,13 +264,19 @@
 
 				<div class="field mb-6">
 					<label class="label is-size-3" for="">Script zum einbinden</label>
+					<p class="mb-4">
+						Enthält Html, Script und Style. Daher ist der Code-Schnippsel so groß. Es werden keine
+						externen Scripte geladen!
+					</p>
 					<div class="control">
 						<textarea
+							readonly
 							class="textarea"
 							name="field-name"
-							rows="4"
-							placeholder="Write something..."
-						/>
+							rows="12"
+							placeholder="Click auf den Button um den passenden Code hier zu erhalten"
+							>{scriptTag ? scriptTag : ''}</textarea
+						>
 					</div>
 				</div>
 			</div>
