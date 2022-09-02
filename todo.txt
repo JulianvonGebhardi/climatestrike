@@ -1,0 +1,4 @@
+- add the close icon
+- add inline css to make is a modal like banner incl. backdrop --> Use css from germany website
+- test image conversion to SVG to they can be inlcuded without loaded a external image
+- clean up the repo

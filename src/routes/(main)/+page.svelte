@@ -2,7 +2,7 @@
 	// @ts-nocheck
 
 	import { onMount } from 'svelte';
-	import cssBanner from '$lib/banner.js';
+	import cssBanner from '$lib/bannerCss.js';
 
 	onMount(() => {
 		innerHtml = element.innerHTML;
@@ -11,27 +11,37 @@
 	let element;
 	let innerHtml;
 	let scriptTag;
+	let closeModal;
+	let modalTest = false;
+	let processingHtml = false;
 
 	function getScriptTag() {
 		let func = () => {
 			window.addEventListener('load', (event) => {
 				console.log('page is fully loaded');
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `innerHtml`);
-				document.getElementById('close_climatestrike').addEventListener('click', (event) => {
+				document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 					event.preventDefault();
 					document.getElementById('banner_climatestrike').style.display = 'none';
 				});
 			});
 		};
 
-		console.log(String(func));
-		let scriptString = String(func).replace('innerHtml', innerHtml);
+		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
+		processingHtml = true;
+		let scriptString = String(func).replace('innerHtml', backDrop + innerHtml);
+		processingHtml = false;
 		let regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
-		return `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script> ${cssBanner}`;
+		return `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script> <style>${cssBanner}<\/style>`;
 	}
 </script>
 
+<svelte:head>
+	{#if modalTest}
+		{scriptTag}
+	{/if}
+</svelte:head>
 <body>
 	<div class="section has-mw-5xl mx-auto">
 		<div>
@@ -56,7 +66,7 @@
 					Add a smart and customized strike banner to your website and show that you care!
 				</h1>
 
-				<form action="#" method="post">
+				<form action="/" on:submit|preventDefault>
 					<p class="is-size-4 mb-6">
 						Once you add the banner to your website (via Script Tag) it will only show up on the
 						23.09.2022. (no matter in which time zone you live)
@@ -139,12 +149,18 @@
 							scriptTag = getScriptTag();
 							console.log(scriptTag);
 						}}
-						class="button is-medium is-primary is-responsive "
-						href="#">Generate Script</a
+						class="button is-medium is-primary is-responsive"
+						href="/#script_climatestrike">Generate Script</a
 					>
 
-					<section class="mt-6 py-6 section" id="banner_climatestrike" bind:this={element}>
-						<div class="container">
+					<section class="mt-6 py-6 section" bind:this={element}>
+						<div
+							id="banner_climatestrike"
+							class="container"
+							style={processingHtml
+								? 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;'
+								: ''}
+						>
 							<div
 								class="py-6 px-5 is-relative has-background-info has-text-centered"
 								style="border-radius: 4px; overflow: hidden;"
@@ -169,8 +185,8 @@
 										care of the development.
 									</p>
 									<a
-										class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive"
-										href="#"
+										class="button close_climatestrike px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive"
+										href="/"
 									>
 										<span class="">Mehr Infos</span>
 									</a>
@@ -262,7 +278,7 @@
 					</section>
 				</form>
 
-				<div class="field mb-6">
+				<div class="field mb-6" id="script_climatestrike">
 					<label class="label is-size-3" for="">Script zum einbinden</label>
 					<p class="mb-4">
 						Enthält Html, Script und Style. Daher ist der Code-Schnippsel so groß. Es werden keine
