@@ -12,24 +12,29 @@
 	let btn = 'Mehr Infos';
 	// let header = 'Wir streiken zum globalen Klimastreik!';
 	let content = 'Auf diese Weise möchten wir auch ONLINE diesem Thema Relevanz geben.';
-	let imgLink = '';
+	let imgLink;
 	let counter = '10 Sekunden';
 
 	let element;
 	let innerHtml;
 	let scriptTag;
 	let processingHtml = false;
+	let forceUpdate = false;
+	let timeout = false;
+	let myInterval;
+
+	$: counterNumber = counter.slice(0, 2);
 
 	function getScriptTag() {
 		// the following function is the function which will be copied into the script
 		let func = () => {
 			window.addEventListener('load', (event) => {
-				console.log('page is fully loaded');
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `innerHtml`);
 				document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 					event.preventDefault();
 					document.getElementById('banner_climatestrike').style.display = 'none';
 				});
+
 				let interValCount = Number(document.querySelector('.climate_strike_counter').innerHTML);
 
 				let myInterval = setInterval(() => {
@@ -46,8 +51,11 @@
 		};
 
 		// this only work on the app page when clicking on generate
+
+		const initialCount = document.querySelector('.climate_strike_counter').innerHTML;
+		console.log(initialCount);
 		if (Number(counter.slice(0, 2))) {
-			let myInterval = setInterval(() => {
+			myInterval = setInterval(() => {
 				let counterNumber = document.querySelector('.climate_strike_counter').innerHTML;
 				counterNumber = Number(counterNumber) - 1;
 				document.querySelector('.climate_strike_counter').innerHTML = String(counterNumber);
@@ -55,13 +63,18 @@
 
 			setTimeout(() => {
 				clearInterval(myInterval);
+				setTimeout(() => {
+					document.getElementById('banner_climatestrike').style.display = 'block';
+					counter = initialCount + ' ' + 'Sekunden';
+					forceUpdate = !forceUpdate;
+				}, 2500);
 				document.getElementById('banner_climatestrike').style.display = 'none';
 			}, Number(counter.slice(0, 2)) * 1000);
 		}
 
 		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
 		processingHtml = true;
-		const scriptString = String(func).replace('innerHtml', backDrop + innerHtml);
+		let scriptString = String(func).replace('innerHtml', backDrop + innerHtml);
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
@@ -193,8 +206,9 @@
 
 					<a
 						on:click={() => {
+							forceUpdate = !forceUpdate;
+							clearInterval(myInterval);
 							scriptTag = getScriptTag();
-							console.log(scriptTag);
 						}}
 						class="button is-medium is-primary is-responsive"
 						href="/#script_climatestrike">Generate Script</a
@@ -212,12 +226,14 @@
 								class="delete is-medium close_climatestrike"
 								style="position: absolute; top: -1rem; right: -1rem;"
 							/>
-							{#if Number(counter.slice(0, 2))}
-								<button
-									class="is-medium close_climatestrike climate_strike_counter"
-									style="position: absolute; bottom: -1rem; right: -1rem;"
-									>{counter.slice(0, 2)}</button
-								>
+
+							{#if Number(counterNumber)}
+								{#key forceUpdate}
+									<button
+										class="is-medium close_climatestrike climate_strike_counter"
+										style="position: absolute; bottom: -1rem; right: -1rem;">{counterNumber}</button
+									>
+								{/key}
 							{/if}
 
 							<div
@@ -230,8 +246,8 @@
 									<img
 										class="image mx-auto"
 										style="object-size: contain;"
-										src="images/E-Mail-Banner-2.png"
-										alt=""
+										src={imgLink ? imgLink : '/images/E-Mail-Banner-2.png'}
+										alt="url for backgroundimage"
 									/>
 								</div>
 								<div class="py-6" style="position: relative; z-index: 10;">
