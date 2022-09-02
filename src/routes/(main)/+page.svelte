@@ -8,6 +8,13 @@
 		innerHtml = element.innerHTML;
 	});
 
+	let link = 'https://www.klima-streik.org/';
+	let btn = 'Mehr Infos';
+	let header = 'Wir streiken zum globalen Klimastreik!';
+	let content = 'Auf diese Weise möchten wir auch ONLINE diesem Thema Relevanz geben.';
+	let imgLink = '';
+	let counter = '10 Sekunden';
+
 	let element;
 	let innerHtml;
 	let scriptTag;
@@ -16,6 +23,7 @@
 	let processingHtml = false;
 
 	function getScriptTag() {
+		// the following function is the function which will be copied into the script
 		let func = () => {
 			window.addEventListener('load', (event) => {
 				console.log('page is fully loaded');
@@ -24,8 +32,34 @@
 					event.preventDefault();
 					document.getElementById('banner_climatestrike').style.display = 'none';
 				});
+				let interValCount = Number(document.querySelector('.climate_strike_counter').innerHTML);
+
+				let myInterval = setInterval(() => {
+					let counterNumber = document.querySelector('.climate_strike_counter').innerHTML;
+					counterNumber = Number(counterNumber) - 1;
+					document.querySelector('.climate_strike_counter').innerHTML = String(counterNumber);
+				}, 1000);
+
+				setTimeout(() => {
+					clearInterval(myInterval);
+					document.getElementById('banner_climatestrike').style.display = 'none';
+				}, interValCount * 1000);
 			});
 		};
+
+		// this only work on the app page when clicking on generate
+		if (Number(counter.slice(0, 2))) {
+			let myInterval = setInterval(() => {
+				let counterNumber = document.querySelector('.climate_strike_counter').innerHTML;
+				counterNumber = Number(counterNumber) - 1;
+				document.querySelector('.climate_strike_counter').innerHTML = String(counterNumber);
+			}, 1000);
+
+			setTimeout(() => {
+				clearInterval(myInterval);
+				document.getElementById('banner_climatestrike').style.display = 'none';
+			}, Number(counter.slice(0, 2)) * 1000);
+		}
 
 		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
 		processingHtml = true;
@@ -72,17 +106,18 @@
 						23.09.2022. (no matter in which time zone you live)
 					</p>
 
-					<div class="field mb-6">
+					<!-- <div class="field mb-6">
 						<label class="label is-size-4" for="">Banner Header </label>
 						<div class="control">
-							<input class="input" type="text" name="field-name" placeholder="Write a text" />
+							<input bind:value="{header}" class="input" type="text" name="field-name" placeholder="Write a text" />
 						</div>
-					</div>
+					</div> -->
 
 					<div class="field mb-6">
 						<label class="label is-size-4" for="">Banner Content</label>
 						<div class="control">
 							<textarea
+								bind:value={content}
 								class="textarea"
 								name="field-name"
 								rows="4"
@@ -95,23 +130,41 @@
 						<label class="label is-size-4" for="">Call to Action</label>
 						<div class="control">
 							<label class="label my-2" for="">Button Text</label>
-							<input class="input" type="text" name="field-name" placeholder="Write a text" />
+							<input
+								bind:value={btn}
+								class="input"
+								type="text"
+								name="field-name"
+								placeholder="Write a text"
+							/>
 						</div>
 						<div class="control">
 							<label class="label my-2" for="">Button Link</label>
-							<input class="input" type="text" name="field-name" placeholder="Write a text" />
+							<input
+								bind:value={link}
+								class="input"
+								type="text"
+								name="field-link"
+								placeholder="Write a text"
+							/>
 						</div>
 					</div>
 
 					<div class="field mb-6">
-						<label class="label is-size-4" for="">Call to Action</label>
-						<div class="control">
+						<label class="label is-size-4" for="">Background Image</label>
+						<!-- <div class="control">
 							<label class="label my-2" for="">Button Text</label>
 							<input class="input" type="text" name="field-name" placeholder="Write a text" />
-						</div>
+						</div> -->
 						<div class="control">
-							<label class="label my-2" for="">Button Link</label>
-							<input class="input" type="text" name="field-name" placeholder="Write a text" />
+							<label class="label my-2" for="">Image Link</label>
+							<input
+								bind:value={imgLink}
+								class="input"
+								type="text"
+								name="field-name"
+								placeholder="Write a text"
+							/>
 						</div>
 					</div>
 
@@ -119,8 +172,8 @@
 						<label class="label is-size-4" for="">Set seconds to show the banner</label>
 						<div class="control">
 							<div class="select is-fullwidth">
-								<select name="field-name">
-									<option>10 Sekunden</option>
+								<select bind:value={counter} name="field-name">
+									<option selected>10 Sekunden</option>
 									<option>20 Sekunden</option>
 									<option>30 Sekunden</option>
 									<option>Show until user closes banner</option>
@@ -156,11 +209,23 @@
 					<section class="mt-6 py-6 section" bind:this={element}>
 						<div
 							id="banner_climatestrike"
-							class="container"
+							class="container m-0"
 							style={processingHtml
 								? 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;'
 								: ''}
 						>
+							<button
+								class="delete is-medium close_climatestrike"
+								style="position: absolute; top: -1rem; right: -1rem;"
+							/>
+							{#if Number(counter.slice(0, 2))}
+								<button
+									class="is-medium close_climatestrike climate_strike_counter"
+									style="position: absolute; bottom: -1rem; right: -1rem;"
+									>{counter.slice(0, 2)}</button
+								>
+							{/if}
+
 							<div
 								class="py-6 px-5 is-relative has-background-info has-text-centered"
 								style="border-radius: 4px; overflow: hidden;"
@@ -170,7 +235,7 @@
 								>
 									<img
 										class="image mx-auto"
-										style="object-size: contain; margin-top: -24px;"
+										style="object-size: contain;"
 										src="images/E-Mail-Banner-2.png"
 										alt=""
 									/>
@@ -181,21 +246,20 @@
 										<span class="has-background-warning has-text-black">globalen Klimastreik!</span>
 									</h2>
 									<p class="has-mw-md mb-6 mx-auto has-text-white is-size-5 is-size-4-tablet mt-4">
-										Good customer relationship management is the foundation of modern business. Take
-										care of the development.
+										{content}
 									</p>
 									<a
-										class="button close_climatestrike px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive"
-										href="/"
+										class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive"
+										href={link}
 									>
-										<span class="">Mehr Infos</span>
+										<span class="">{btn}</span>
 									</a>
 								</div>
 							</div>
 						</div>
 					</section>
 
-					<section class="mt-6 py-6 section">
+					<!-- <section class="mt-6 py-6 section">
 						<div class="container">
 							<div
 								class="py-6 px-5 is-relative has-background-info has-text-centered"
@@ -229,8 +293,9 @@
 								</div>
 							</div>
 						</div>
-					</section>
-					<section class="section py-6">
+					</section> -->
+
+					<!-- <section class="section py-6">
 						<div class="container">
 							<div
 								class="py-6 px-5 is-relative has-background-info has-text-centered"
@@ -275,7 +340,7 @@
 								</div>
 							</div>
 						</div>
-					</section>
+					</section> -->
 				</form>
 
 				<div class="field mb-6" id="script_climatestrike">
