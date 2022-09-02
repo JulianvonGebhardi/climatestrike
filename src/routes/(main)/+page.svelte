@@ -10,7 +10,7 @@
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'Mehr Infos';
-	let header = 'Wir streiken zum globalen Klimastreik!';
+	// let header = 'Wir streiken zum globalen Klimastreik!';
 	let content = 'Auf diese Weise möchten wir auch ONLINE diesem Thema Relevanz geben.';
 	let imgLink = '';
 	let counter = '10 Sekunden';
@@ -18,8 +18,6 @@
 	let element;
 	let innerHtml;
 	let scriptTag;
-	let closeModal;
-	let modalTest = false;
 	let processingHtml = false;
 
 	function getScriptTag() {
@@ -63,19 +61,15 @@
 
 		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
 		processingHtml = true;
-		let scriptString = String(func).replace('innerHtml', backDrop + innerHtml);
+		const scriptString = String(func).replace('innerHtml', backDrop + innerHtml);
 		processingHtml = false;
-		let regex = /(?:\s)\s/g;
+		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
+
 		return `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script> <style>${cssBanner}<\/style>`;
 	}
 </script>
 
-<svelte:head>
-	{#if modalTest}
-		{scriptTag}
-	{/if}
-</svelte:head>
 <body>
 	<div class="section has-mw-5xl mx-auto">
 		<div>
