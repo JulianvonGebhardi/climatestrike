@@ -1,17 +1,27 @@
 <svelte:head>
 	<script>
 		const bannerFunc = () => {
+			const url = document.location.hash;
+			console.log(url);
+			if (url != '#climatestrikebanner_23_09_2022') {
+				if (
+					Date.now() < new Date('September 23, 2022, 00:00:01 GMT +02:00').getTime() ||
+					Date.now() > new Date('September 23, 2022, 23:59:59 GMT +02:00').getTime()
+				) {
+					return;
+				}
+			}
 			window.addEventListener('load', (event) => {
-				console.log('page is fully loaded');
 				document
 					.querySelector('body')
 					.insertAdjacentHTML(
 						'afterbegin',
-						`<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/><div id="banner_climatestrike" class="container m-0" style=""><button class="delete is-medium close_climatestrike" style="position: absolute; top: -1rem; right: -1rem;"></button> <button class="is-medium close_climatestrike climate_strike_counter" style="position: absolute; bottom: -1rem; right: -1rem;">10</button> <div class="py-6 px-5 is-relative has-background-info has-text-centered" style="border-radius: 4px; overflow: hidden;"><div style="position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; opacity: 0.5;"><img class="image mx-auto" src="images/E-Mail-Banner-2.png" alt=""></div> <div class="py-6" style="position: relative; z-index: 10;"><h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold"><span class="has-text-white ">Wir streiken zum</span> <span class="has-background-warning has-text-black">globalen Klimastreik!</span></h2> <p class="has-mw-md mb-6 mx-auto has-text-white is-size-5 is-size-4-tablet mt-4">Auf diese Weise möchten wir auch ONLINE diesem Thema Relevanz geben.</p> <a class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive" href="https://www.klima-streik.org/"><span class="">Mehr Infos</span></a></div></div></div>`
+						`<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/><div id="banner_climatestrike" class="container m-0" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;"><button class="delete is-medium close_climatestrike" style="position: absolute; top: -1rem; right: -1rem;"></button> <button class="is-medium close_climatestrike climate_strike_counter" style="position: absolute; bottom: -1rem; right: -1rem;">10</button> <div class="py-6 px-5 is-relative has-background-info has-text-centered" style="border-radius: 4px; overflow: hidden;"><div style="position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; opacity: 0.5;"><img class="image mx-auto" src="/images/E-Mail-Banner-2.png" alt="url for backgroundimage"></div> <div class="py-6" style="position: relative; z-index: 10;"><h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold"><span class="has-text-white ">Wir streiken zum</span> <span class="has-background-warning has-text-black">globalen Klimastreik!</span></h2> <p class="has-mw-md mb-6 mx-auto has-text-white is-size-5 is-size-4-tablet mt-4">Auf diese Weise möchten wir auch ONLINE diesem Thema Relevanz geben.</p> <a class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive" href="https://www.klima-streik.org/"><span class="">Mehr Infos</span></a></div></div></div>`
 					);
 				document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 					event.preventDefault();
 					document.getElementById('banner_climatestrike').style.display = 'none';
+					document.getElementById('backdrop_climatestrike').style.display = 'none';
 				});
 				let interValCount = Number(document.querySelector('.climate_strike_counter').innerHTML);
 				let myInterval = setInterval(() => {
@@ -22,6 +32,7 @@
 				setTimeout(() => {
 					clearInterval(myInterval);
 					document.getElementById('banner_climatestrike').style.display = 'none';
+					document.getElementById('backdrop_climatestrike').style.display = 'none';
 				}, interValCount * 1000);
 			});
 		};
@@ -3256,5 +3267,5 @@
 				max-width: 28rem;
 			}
 		}
-	</style>
+	</style><!-- head content -->
 </svelte:head>

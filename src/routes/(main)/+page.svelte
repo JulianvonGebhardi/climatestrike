@@ -1,12 +1,8 @@
 <script>
 	// @ts-nocheck
 
-	import { onMount } from 'svelte';
+	import { tick } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
-
-	onMount(() => {
-		innerHtml = element.innerHTML;
-	});
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'Mehr Infos';
@@ -16,23 +12,31 @@
 	let counter = '10 Sekunden';
 
 	let element;
-	let innerHtml;
 	let scriptTag;
 	let processingHtml = false;
 	let forceUpdate = false;
-	let timeout = false;
 	let myInterval;
 
 	$: counterNumber = counter.slice(0, 2);
 
-	function getScriptTag() {
-		// the following function is the function which will be copied into the script
+	async function getScriptTag() {
 		let func = () => {
+			const url = document.location.hash;
+			console.log(url);
+			if (url != '#climatestrikebanner_23_09_2022') {
+				if (
+					Date.now() < new Date('September 23, 2022, 00:00:01 GMT +02:00').getTime() ||
+					Date.now() > new Date('September 23, 2022, 23:59:59 GMT +02:00').getTime()
+				) {
+					return;
+				}
+			}
 			window.addEventListener('load', (event) => {
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `innerHtml`);
 				document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 					event.preventDefault();
 					document.getElementById('banner_climatestrike').style.display = 'none';
+					document.getElementById('backdrop_climatestrike').style.display = 'none';
 				});
 
 				let interValCount = Number(document.querySelector('.climate_strike_counter').innerHTML);
@@ -46,14 +50,13 @@
 				setTimeout(() => {
 					clearInterval(myInterval);
 					document.getElementById('banner_climatestrike').style.display = 'none';
+					document.getElementById('backdrop_climatestrike').style.display = 'none';
 				}, interValCount * 1000);
 			});
 		};
 
-		// this only work on the app page when clicking on generate
-
+		// this only work on the app page when clicking on generateo
 		const initialCount = document.querySelector('.climate_strike_counter').innerHTML;
-		console.log(initialCount);
 		if (Number(counter.slice(0, 2))) {
 			myInterval = setInterval(() => {
 				let counterNumber = document.querySelector('.climate_strike_counter').innerHTML;
@@ -74,12 +77,13 @@
 
 		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
 		processingHtml = true;
-		let scriptString = String(func).replace('innerHtml', backDrop + innerHtml);
+		await tick();
+		let scriptString = String(func).replace('innerHtml', backDrop + element.innerHTML);
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
-
-		return `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script> <style>${cssBanner}<\/style>`;
+		scriptTag = `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script> <style>${cssBanner}<\/style>`;
+		return;
 	}
 </script>
 
@@ -208,7 +212,7 @@
 						on:click={() => {
 							forceUpdate = !forceUpdate;
 							clearInterval(myInterval);
-							scriptTag = getScriptTag();
+							getScriptTag();
 						}}
 						class="button is-medium is-primary is-responsive"
 						href="/#script_climatestrike">Generate Script</a
@@ -357,7 +361,8 @@
 					<label class="label is-size-3" for="">Script zum einbinden</label>
 					<p class="mb-4">
 						Enthält Html, Script und Style. Daher ist der Code-Schnippsel so groß. Es werden keine
-						externen Scripte geladen!
+						externen Scripte geladen! The banner will be shown on the 23.09.2022 automatically.
+						Before and after this day the banner will not be loaded.
 					</p>
 					<div class="control">
 						<textarea
@@ -369,6 +374,15 @@
 							>{scriptTag ? scriptTag : ''}</textarea
 						>
 					</div>
+				</div>
+				<div class="field mb-6" id="script_climatestrike">
+					<label class="label is-size-3" for="">Script testen</label>
+					<p class="mb-4 is-size-4">
+						After you have added the script to your site, you can test it by adding <span
+							>#climatestrikebanner_23_09_2022'</span
+						> at the end of the url.
+					</p>
+					<p>EXAMPLE: https://deineurl.de#climatestrikebanner_23_09_2022'</p>
 				</div>
 			</div>
 		</div>
