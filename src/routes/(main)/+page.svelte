@@ -25,14 +25,15 @@
 			console.log(url);
 			if (url != '#climatestrikebanner_23_09_2022') {
 				if (
-					Date.now() < new Date('September 23, 2022, 00:00:01 GMT +02:00').getTime() ||
-					Date.now() > new Date('September 23, 2022, 23:59:59 GMT +02:00').getTime()
+					Date.now() < new Date('2022-09-23T00:00:01').getTime() ||
+					Date.now() > new Date('2022-09-23T23:59:59').getTime()
 				) {
 					return;
 				}
 			}
 			window.addEventListener('load', (event) => {
-				document.querySelector('body').insertAdjacentHTML('afterbegin', `innerHtml`);
+				document.querySelector('body').insertAdjacentHTML('afterbegin', `%innerHtml%`);
+				document.querySelector('head').insertAdjacentHTML('beforeend', `%cssBanner%`);
 				document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 					event.preventDefault();
 					document.getElementById('banner_climatestrike').style.display = 'none';
@@ -49,8 +50,9 @@
 
 				setTimeout(() => {
 					clearInterval(myInterval);
-					document.getElementById('banner_climatestrike').style.display = 'none';
-					document.getElementById('backdrop_climatestrike').style.display = 'none';
+					document.getElementById('banner_climatestrike').remove();
+					document.getElementById('backdrop_climatestrike').remove();
+					document.getElementById('climatestrike_style').remove();
 				}, interValCount * 1000);
 			});
 		};
@@ -78,11 +80,12 @@
 		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
 		processingHtml = true;
 		await tick();
-		let scriptString = String(func).replace('innerHtml', backDrop + element.innerHTML);
+		let scriptString = String(func).replace(`%innerHtml%`, backDrop + element.innerHTML);
+		scriptString = scriptString.replace(`%cssBanner%`, cssBanner);
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
-		scriptTag = `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script> <style>${cssBanner}<\/style>`;
+		scriptTag = `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script>`;
 		return;
 	}
 </script>
