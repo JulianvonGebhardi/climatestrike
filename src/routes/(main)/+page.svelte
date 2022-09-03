@@ -10,6 +10,7 @@
 	let content = 'Auf diese Weise möchten wir auch ONLINE diesem Thema Relevanz geben.';
 	let imgLink;
 	let counter = '10 Sekunden';
+	let closeIcon = false;
 
 	let element;
 	let scriptTag;
@@ -34,12 +35,13 @@
 			window.addEventListener('load', (event) => {
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `%innerHtml%`);
 				document.querySelector('head').insertAdjacentHTML('beforeend', `%cssBanner%`);
-				document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
-					event.preventDefault();
-					document.getElementById('banner_climatestrike').remove();
-					document.getElementById('backdrop_climatestrike').remove();
-				});
-
+				if (document.querySelector('.close_climatestrike')) {
+					document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
+						event.preventDefault();
+						document.getElementById('banner_climatestrike').remove();
+						document.getElementById('backdrop_climatestrike').remove();
+					});
+				}
 				let interValCount = Number(document.querySelector('.climate_strike_counter').innerHTML);
 
 				let myInterval = setInterval(() => {
@@ -204,12 +206,12 @@
 						<div class="control is-size-4">
 							<label class="checkbox" for="">
 								<input
+									bind:checked={closeIcon}
 									class="checkbox"
 									style="height: 1.3rem; width: 1.3rem;"
 									type="checkbox"
 									name="field-name"
 									value="example value"
-									checked
 								/><span class=" ml-2">Let the user close the banner by the close icon</span>
 							</label>
 						</div>
@@ -233,15 +235,17 @@
 								? 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;'
 								: ''}
 						>
-							<button
-								class="delete is-medium close_climatestrike"
-								style="position: absolute; top: -1rem; right: -1rem;"
-							/>
+							{#if closeIcon}
+								<!-- content here --><button
+									class="delete is-medium close_climatestrike"
+									style="position: absolute; top: -1rem; right: -1rem;"
+								/>
+							{/if}
 
 							{#if Number(counterNumber)}
 								{#key forceUpdate}
 									<button
-										class="is-medium close_climatestrike climate_strike_counter"
+										class="is-medium climate_strike_counter"
 										style="position: absolute; bottom: -1rem; right: -1rem;">{counterNumber}</button
 									>
 								{/key}
@@ -391,7 +395,7 @@
 							>#climatestrikebanner_23_09_2022'</span
 						> at the end of the url.
 					</p>
-					<p>EXAMPLE: https://deineurl.de#climatestrikebanner_23_09_2022'</p>
+					<p>EXAMPLE: https://deineurl.de#climatestrikebanner_23_09_2022</p>
 				</div>
 			</div>
 		</div>
