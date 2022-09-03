@@ -166,6 +166,10 @@
 
 					<div class="field mb-6">
 						<label class="label is-size-4" for="">Background Image</label>
+						<p>
+							Please use only IMG urls which are hosted by yourself or where you have the permission
+							to do so.
+						</p>
 						<!-- <div class="control">
 							<label class="label my-2" for="">Button Text</label>
 							<input class="input" type="text" name="field-name" placeholder="Write a text" />
@@ -250,12 +254,14 @@
 								<div
 									style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 50%;"
 								>
-									<img
-										class="image mx-auto"
-										style="object-size: contain;"
-										src={imgLink ? imgLink : '/images/E-Mail-Banner-2.png'}
-										alt="url for backgroundimage"
-									/>
+									{#if imgLink}
+										<img
+											class="image mx-auto"
+											style="object-size: contain;"
+											src={imgLink ? imgLink : ''}
+											alt="backgroundimage for banner"
+										/>
+									{/if}
 								</div>
 								<div class="py-6" style="position: relative; z-index: 10;">
 									<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold">
