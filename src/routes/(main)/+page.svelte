@@ -36,8 +36,8 @@
 				document.querySelector('head').insertAdjacentHTML('beforeend', `%cssBanner%`);
 				document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 					event.preventDefault();
-					document.getElementById('banner_climatestrike').style.display = 'none';
-					document.getElementById('backdrop_climatestrike').style.display = 'none';
+					document.getElementById('banner_climatestrike').remove();
+					document.getElementById('backdrop_climatestrike').remove();
 				});
 
 				let interValCount = Number(document.querySelector('.climate_strike_counter').innerHTML);
