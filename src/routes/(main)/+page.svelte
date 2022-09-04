@@ -37,6 +37,7 @@
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
 
 				const styleNode = document.createElement('style');
+				styleNode.setAttribute('id', 'climatestrike_style');
 				let style = `"%cssBanner%"`;
 				styleNode.textContent = style;
 				document.head.appendChild(styleNode);
