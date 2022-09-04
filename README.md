@@ -4,6 +4,6 @@ This is a small editor to create easy to implement banner for any website with t
 
 ## More infos will follow
 
-## Use the app for your website
+## Use the webapp and create a climate strike banner for your website
 
 [Climatestrike Editor](https://climatestrike.happyinbox.io) for your target environment.

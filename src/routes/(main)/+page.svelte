@@ -1,6 +1,5 @@
 <script>
 	// @ts-nocheck
-
 	import { tick } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
 
@@ -27,8 +26,8 @@
 		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
 				const url = document.location.hash;
-				document.querySelector('body').insertAdjacentHTML('afterbegin', `%innerHtml%`);
-				document.querySelector('head').insertAdjacentHTML('beforeend', `%cssBanner%`);
+				document.querySelector('body').insertAdjacentHTML('afterbegin', '%innerHtml%');
+				document.querySelector('head').insertAdjacentHTML('beforeend', '%cssBanner%');
 				if (url != '#climatestrikebanner_23_09_2022') {
 					if (
 						Date.now() < new Date('2022-09-23T00:00:01').getTime() ||
@@ -80,21 +79,21 @@
 				clearInterval(myInterval);
 				setTimeout(() => {
 					document.getElementById('banner_climatestrike').style.display = 'block';
-					// counter = initialCount + ' ' + 'Sekunden';
 					forceUpdate = !forceUpdate;
 				}, 2500);
 				document.getElementById('banner_climatestrike').style.display = 'none';
 			}, Number(counter.slice(0, 2)) * 1000);
 		}
 
-		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
+		const backDrop =
+			'<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>';
 		processingHtml = true;
 		await tick();
 		let scriptString = String(exportableFunction).replace(
-			`%innerHtml%`,
+			'%innerHtml%',
 			backDrop + element.innerHTML
 		);
-		scriptString = scriptString.replace(`%cssBanner%`, cssBanner);
+		scriptString = scriptString.replace('%cssBanner%', cssBanner);
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
