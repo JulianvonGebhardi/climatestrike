@@ -26,8 +26,6 @@
 		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
 				const url = document.location.hash;
-				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
-				document.querySelector('head').insertAdjacentHTML('beforeend', `"%cssBanner%"`);
 				if (url != '#climatestrikebanner_23_09_2022') {
 					if (
 						Date.now() < new Date('2022-09-23T00:00:01').getTime() ||
@@ -36,6 +34,13 @@
 						return;
 					}
 				}
+				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
+
+				const styleNode = document.createElement('style');
+				let style = `"%cssBanner%"`;
+				styleNode.textContent = style;
+				document.head.appendChild(styleNode);
+
 				let closeIcon = document.querySelector('.close_climatestrike');
 				let checkCounter = document.querySelector('.climate_strike_counter');
 				if (closeIcon) {
@@ -68,7 +73,6 @@
 		// this upcoming part now will have impact on the web app to produce the correct script tag function and the preview banner
 		if (counterNumber && document.querySelector('.climate_strike_counter')) {
 			const initialCount = counterNumber;
-			console.log(initialCount);
 			myInterval = setInterval(() => {
 				let readNumber = document.querySelector('.climate_counter-number').innerHTML;
 				readNumber = Number(readNumber) - 1;
@@ -93,7 +97,12 @@
 			'"%innerHtml%"',
 			backDrop + element.innerHTML
 		);
-		scriptString = scriptString.replace('"%cssBanner%"', cssBanner);
+
+		const styleNode = document.createElement('style');
+		styleNode.textContent = cssBanner;
+		styleNode.setAttribute('id', 'climatestrike_style');
+		scriptString = scriptString.replace('"%cssBanner%"', styleNode.innerHTML);
+
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
@@ -233,7 +242,6 @@
 					<a
 						on:click={() => {
 							forceUpdate = !forceUpdate;
-							console.log('clearInterval');
 							clearInterval(myInterval);
 							clearTimeout(timer);
 							getScriptTag();
