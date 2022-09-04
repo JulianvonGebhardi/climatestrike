@@ -98,7 +98,7 @@
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
-		scriptTag = `<script> const bannerFunc = ${scriptString}; bannerFunc()<\/script>`;
+		scriptTag = `<script> const bannerFunc = ${scriptString}; bannerFunc();<\/script>`;
 		return;
 	}
 </script>
