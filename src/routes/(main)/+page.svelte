@@ -5,11 +5,12 @@
 	import cssBanner from '$lib/bannerCss.js';
 
 	let link = 'https://www.klima-streik.org/';
-	let btn = 'Mehr Infos';
+	let btn = 'More infos';
 	// let header = 'Wir streiken zum globalen Klimastreik!';
-	let content = 'Auf diese Weise möchten wir auch ONLINE diesem Thema Relevanz geben.';
+	let content =
+		'Today on the 23.09.2022 is the day of the global climate strike. We also want to create awareness by striking online.';
 	let imgLink;
-	let counter = '10 Sekunden';
+	let counter = '10 seconds';
 	let closeIcon = false;
 
 	let element;
@@ -119,13 +120,14 @@
 			<div class="section container">
 				<div class="close" id="close_climatestrike" />
 				<h1 class="title is-spaced is-2 my-6 is-size-3-desktop is-size-4">
-					Add a smart and customized strike banner to your website and show that you care!
+					Add a smart and customized strike banner to your website and be part of the global
+					climatestrike on the 23.09.2022.
 				</h1>
 
 				<form action="/" on:submit|preventDefault>
 					<p class="is-size-4 mb-6">
 						Once you add the banner to your website (via Script Tag) it will only show up on the
-						23.09.2022. (no matter in which time zone you live)
+						23.09.2022. (no matter in which time zone you live in)
 					</p>
 
 					<!-- <div class="field mb-6">
@@ -175,8 +177,8 @@
 					<div class="field mb-6">
 						<label class="label is-size-4" for="">Background Image</label>
 						<p>
-							Please use only IMG urls which are hosted by yourself or where you have the permission
-							to do so.
+							Please only use images-urls which are hosted by yourself or where you have the
+							permission to do so.
 						</p>
 						<!-- <div class="control">
 							<label class="label my-2" for="">Button Text</label>
@@ -199,10 +201,11 @@
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select bind:value={counter} name="field-name">
-									<option selected>10 Sekunden</option>
-									<option>20 Sekunden</option>
-									<option>30 Sekunden</option>
-									<option>Show until user closes banner</option>
+									<option selected>10 seconds</option>
+									<option>20 seconds</option>
+									<option>30 seconds</option>
+									<option>60 seconds</option>
+									<option>no timer</option>
 								</select>
 							</div>
 						</div>
@@ -218,7 +221,7 @@
 									type="checkbox"
 									name="field-name"
 									value="example value"
-								/><span class=" ml-2">Let the user close the banner by the close icon</span>
+								/><span class=" ml-2">Let the user close the banner by a close icon</span>
 							</label>
 						</div>
 					</div>
@@ -232,7 +235,7 @@
 							getScriptTag();
 						}}
 						class="button is-medium is-primary is-responsive"
-						href="/#script_climatestrike">Generate Script</a
+						href="/#script_climatestrike">Generate Script Tag</a
 					>
 
 					<section class="mt-6 py-6 section" bind:this={element}>
@@ -281,8 +284,8 @@
 								</div>
 								<div class="py-6" style="position: relative; z-index: 10;">
 									<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold">
-										<span class="has-text-white ">Wir streiken zum</span>
-										<span class="has-background-warning has-text-black">globalen Klimastreik!</span>
+										<span class="has-text-white ">We strike today</span>
+										<span class="has-background-warning has-text-black">for our planet!</span>
 									</h2>
 									<p class="has-mw-md mb-6 mx-auto has-text-white is-size-5 is-size-4-tablet mt-4">
 										{content}
@@ -383,11 +386,12 @@
 				</form>
 
 				<div class="field mb-6" id="script_climatestrike">
-					<label class="label is-size-3" for="">Script zum einbinden</label>
+					<label class="label is-size-3" for="">Your Script-Tag</label>
 					<p class="mb-4">
-						Enthält Html, Script und Style. Daher ist der Code-Schnippsel so groß. Es werden keine
-						externen Scripte geladen! The banner will be shown on the 23.09.2022 automatically.
-						Before and after this day the banner will not be loaded.
+						Holds all the needed Html, Javascript und Style components. Thats the reason why the
+						code snippet is so long. No externals scripts will be loaded! The banner will be shown
+						on the 23.09.2022 automatically. Before and after this day the banner will not be
+						loaded.
 					</p>
 					<div class="control">
 						<textarea
@@ -401,7 +405,7 @@
 					</div>
 				</div>
 				<div class="field mb-6" id="script_climatestrike">
-					<label class="label is-size-3" for="">Script testen</label>
+					<label class="label is-size-3" for="">Test your scripts</label>
 					<p class="mb-4 is-size-4">
 						After you have added the script to your site, you can test it by adding <span
 							>#climatestrikebanner_23_09_2022'</span
