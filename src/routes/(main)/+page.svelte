@@ -17,6 +17,7 @@
 	let processingHtml = false;
 	let forceUpdate = false;
 	let myInterval;
+	let timer;
 
 	$: counterNumber = counter.slice(0, 2);
 
@@ -32,47 +33,52 @@
 					return;
 				}
 			}
+			let checkCounter = document.querySelector('.close_climatestrike');
 			window.addEventListener('load', (event) => {
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `%innerHtml%`);
 				document.querySelector('head').insertAdjacentHTML('beforeend', `%cssBanner%`);
-				if (document.querySelector('.close_climatestrike')) {
+				if (checkCounter) {
 					document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 						event.preventDefault();
 						document.getElementById('banner_climatestrike').remove();
 						document.getElementById('backdrop_climatestrike').remove();
+						document.getElementById('climatestrike_style').remove();
 					});
 				}
-				let interValCount = Number(document.querySelector('.climate_strike_counter').innerHTML);
+				if (checkCounter) {
+					let interValCount = Number(document.querySelector('.climate_counter-number').innerHTML);
+					let myInterval = setInterval(() => {
+						let counterNumber = document.querySelector('.climate_counter-number').innerHTML;
+						counterNumber = Number(counterNumber) - 1;
+						document.querySelector('.climate_counter-number').innerHTML = String(counterNumber);
+					}, 1000);
 
-				let myInterval = setInterval(() => {
-					let counterNumber = document.querySelector('.climate_strike_counter').innerHTML;
-					counterNumber = Number(counterNumber) - 1;
-					document.querySelector('.climate_strike_counter').innerHTML = String(counterNumber);
-				}, 1000);
-
-				setTimeout(() => {
-					clearInterval(myInterval);
-					document.getElementById('banner_climatestrike').remove();
-					document.getElementById('backdrop_climatestrike').remove();
-					document.getElementById('climatestrike_style').remove();
-				}, interValCount * 1000);
+					setTimeout(() => {
+						clearInterval(myInterval);
+						document.getElementById('banner_climatestrike').remove();
+						document.getElementById('backdrop_climatestrike').remove();
+						document.getElementById('climatestrike_style').remove();
+					}, interValCount * 1000);
+				}
 			});
 		};
 
 		// this only work on the app page when clicking on generateo
-		const initialCount = document.querySelector('.climate_strike_counter').innerHTML;
-		if (Number(counter.slice(0, 2))) {
+
+		if (counterNumber && document.querySelector('.climate_strike_counter')) {
+			const initialCount = counterNumber;
+			console.log(initialCount);
 			myInterval = setInterval(() => {
-				let counterNumber = document.querySelector('.climate_strike_counter').innerHTML;
-				counterNumber = Number(counterNumber) - 1;
-				document.querySelector('.climate_strike_counter').innerHTML = String(counterNumber);
+				let readNumber = document.querySelector('.climate_counter-number').innerHTML;
+				readNumber = Number(readNumber) - 1;
+				document.querySelector('.climate_counter-number').innerHTML = String(readNumber);
 			}, 1000);
 
-			setTimeout(() => {
+			timer = setTimeout(() => {
 				clearInterval(myInterval);
 				setTimeout(() => {
 					document.getElementById('banner_climatestrike').style.display = 'block';
-					counter = initialCount + ' ' + 'Sekunden';
+					// counter = initialCount + ' ' + 'Sekunden';
 					forceUpdate = !forceUpdate;
 				}, 2500);
 				document.getElementById('banner_climatestrike').style.display = 'none';
@@ -220,7 +226,9 @@
 					<a
 						on:click={() => {
 							forceUpdate = !forceUpdate;
+							console.log('clearInterval');
 							clearInterval(myInterval);
+							clearTimeout(timer);
 							getScriptTag();
 						}}
 						class="button is-medium is-primary is-responsive"
@@ -245,9 +253,13 @@
 							{#if Number(counterNumber)}
 								{#key forceUpdate}
 									<button
-										class="is-medium climate_strike_counter"
-										style="position: absolute; bottom: -1rem; right: -1rem;">{counterNumber}</button
-									>
+										class="button is-medium climate_strike_counter is-responsive -mr-3"
+										style="position: absolute; bottom: -1rem; right: -1rem;"
+										><span
+											class="has-text-weight-medium px-2 is-size-5 is-size-4-desktop climate_counter-number"
+											>{counterNumber}</span
+										>
+									</button>
 								{/key}
 							{/if}
 
@@ -263,7 +275,7 @@
 											class="image mx-auto"
 											style="object-size: contain;"
 											src={imgLink ? imgLink : ''}
-											alt="backgroundimage for banner"
+											alt={imgLink ? 'Backgroundimage' : ''}
 										/>
 									{/if}
 								</div>
@@ -401,3 +413,9 @@
 		</div>
 	</div>
 </body>
+
+<style>
+	button {
+		z-index: 1500;
+	}
+</style>
