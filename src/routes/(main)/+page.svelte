@@ -26,8 +26,8 @@
 		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
 				const url = document.location.hash;
-				document.querySelector('body').insertAdjacentHTML('afterbegin', '%innerHtml%');
-				document.querySelector('head').insertAdjacentHTML('beforeend', '%cssBanner%');
+				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
+				document.querySelector('head').insertAdjacentHTML('beforeend', `"%cssBanner%"`);
 				if (url != '#climatestrikebanner_23_09_2022') {
 					if (
 						Date.now() < new Date('2022-09-23T00:00:01').getTime() ||
@@ -90,14 +90,15 @@
 		processingHtml = true;
 		await tick();
 		let scriptString = String(exportableFunction).replace(
-			'%innerHtml%',
+			'"%innerHtml%"',
 			backDrop + element.innerHTML
 		);
-		scriptString = scriptString.replace('%cssBanner%', cssBanner);
+		scriptString = scriptString.replace('"%cssBanner%"', cssBanner);
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
 		scriptTag = `<script> const bannerFunc = ${scriptString}; bannerFunc();<\/script>`;
+
 		return;
 	}
 </script>
