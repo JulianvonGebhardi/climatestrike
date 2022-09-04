@@ -22,23 +22,24 @@
 
 	$: counterNumber = counter.slice(0, 2);
 
+	// the func function (within the getScript function) will be used as STRING and manipulated and the end of this function getScriptTag
 	async function getScriptTag() {
-		let func = () => {
-			const url = document.location.hash;
-			console.log(url);
-			if (url != '#climatestrikebanner_23_09_2022') {
-				if (
-					Date.now() < new Date('2022-09-23T00:00:01').getTime() ||
-					Date.now() > new Date('2022-09-23T23:59:59').getTime()
-				) {
-					return;
-				}
-			}
-			let checkCounter = document.querySelector('.close_climatestrike');
+		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
+				const url = document.location.hash;
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `%innerHtml%`);
 				document.querySelector('head').insertAdjacentHTML('beforeend', `%cssBanner%`);
-				if (checkCounter) {
+				if (url != '#climatestrikebanner_23_09_2022') {
+					if (
+						Date.now() < new Date('2022-09-23T00:00:01').getTime() ||
+						Date.now() > new Date('2022-09-23T23:59:59').getTime()
+					) {
+						return;
+					}
+				}
+				let closeIcon = document.querySelector('.close_climatestrike');
+				let checkCounter = document.querySelector('.climate_strike_counter');
+				if (closeIcon) {
 					document.querySelector('.close_climatestrike').addEventListener('click', (event) => {
 						event.preventDefault();
 						document.getElementById('banner_climatestrike').remove();
@@ -63,9 +64,9 @@
 				}
 			});
 		};
+		/// END
 
-		// this only work on the app page when clicking on generateo
-
+		// this upcoming part now will have impact on the web app to produce the correct script tag function and the preview banner
 		if (counterNumber && document.querySelector('.climate_strike_counter')) {
 			const initialCount = counterNumber;
 			console.log(initialCount);
@@ -89,7 +90,10 @@
 		const backDrop = `<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.214); z-index: 500;"/>`;
 		processingHtml = true;
 		await tick();
-		let scriptString = String(func).replace(`%innerHtml%`, backDrop + element.innerHTML);
+		let scriptString = String(exportableFunction).replace(
+			`%innerHtml%`,
+			backDrop + element.innerHTML
+		);
 		scriptString = scriptString.replace(`%cssBanner%`, cssBanner);
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
@@ -292,6 +296,7 @@
 									</p>
 									<a
 										class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive"
+										target="_blank"
 										href={link}
 									>
 										<span class="">{btn}</span>
