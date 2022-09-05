@@ -2,6 +2,7 @@
 	// @ts-nocheck
 	import { tick } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
+	import { HtmlTag } from 'svelte/internal';
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'More infos';
@@ -424,7 +425,7 @@
 					</div>
 				</div>
 				<div class="field mb-6" id="script_climatestrike">
-					<label class="label is-size-3" for="">Test your scripts</label>
+					<label class="label is-size-3-desktop is-size-4" for="">Test your scripts</label>
 					<p class="mb-4 is-size-4">
 						After you have added the script to your site, you can test it by adding <span
 							>#climatestrikebanner_23_09_2022'</span
@@ -432,6 +433,19 @@
 					</p>
 					<p>EXAMPLE: https://deineurl.de#climatestrikebanner_23_09_2022</p>
 				</div>
+				<div class="field mb-6">
+					<label class="label is-size-3-desktop is-size-4" for="">Add the script to your site</label
+					>
+					<p class="mb-4 is-size-5">
+						You just need to copy the code snippet and paste it in between your Html HEAD-Tags.
+					</p>
+					<code class="mb-4"> &#60;head&#62; CODE SNIPPET &#60;/head&#62;</code>
+				</div>
+				<p>
+					How to do it in wordpress? <a href="https://ostraining.com/blog/wordpress/custom-js/"
+						>Here is a guide.</a
+					>
+				</p>
 			</div>
 		</div>
 	</div>
