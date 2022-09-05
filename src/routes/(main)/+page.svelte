@@ -34,6 +34,11 @@
 						return;
 					}
 				}
+
+				if (sessionStorage.getItem('climatestrikeBanner2022') === 'true') return;
+				if (url != '#climatestrikebanner_23_09_2022')
+					sessionStorage.setItem('climatestrikeBanner2022', 'true');
+
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
 
 				const styleNode = document.createElement('style');
