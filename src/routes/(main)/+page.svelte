@@ -442,8 +442,9 @@
 					<code class="mb-4"> &#60;head&#62; CODE SNIPPET &#60;/head&#62;</code>
 				</div>
 				<p>
-					How to do it in wordpress? <a href="https://ostraining.com/blog/wordpress/custom-js/"
-						>Here is a guide.</a
+					How to do it in wordpress? <a
+						target="_blank"
+						href="https://ostraining.com/blog/wordpress/custom-js/">Here is a guide.</a
 					>
 				</p>
 			</div>
