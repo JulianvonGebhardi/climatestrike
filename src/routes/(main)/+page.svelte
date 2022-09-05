@@ -8,7 +8,7 @@
 	let btn = 'More infos';
 	// let header = 'Wir streiken zum globalen Klimastreik!';
 	let content =
-		'Today on the 23.09.2022 is the day of the global climate strike. We also want to create awareness by striking online.';
+		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online.';
 	let imgLink;
 	let counter = '10 seconds';
 	let closeIcon = false;
