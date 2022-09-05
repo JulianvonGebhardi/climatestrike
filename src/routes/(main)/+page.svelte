@@ -23,6 +23,37 @@
 
 	$: counterNumber = counter.slice(0, 2);
 
+	function handleClick() {
+		forceUpdate = !forceUpdate;
+		clearInterval(myInterval);
+		clearTimeout(timer);
+		getScriptTag();
+	}
+
+	function handleClose() {
+		preview = !preview;
+		forceUpdate = !forceUpdate;
+		clearInterval(myInterval);
+		clearTimeout(timer);
+	}
+
+	function setTimerInPreview() {
+		if (counterNumber && document.querySelector('.climate_strike_counter')) {
+			const initialCount = counterNumber;
+			myInterval = setInterval(() => {
+				let readNumber = document.querySelector('.climate_counter-number').innerHTML;
+				readNumber = Number(readNumber) - 1;
+				document.querySelector('.climate_counter-number').innerHTML = String(readNumber);
+			}, 1000);
+
+			timer = setTimeout(() => {
+				clearInterval(myInterval);
+				// document.getElementById('banner_climatestrike').style.display = 'none';
+				handleClose();
+			}, Number(counter.slice(0, 2)) * 1000);
+		}
+	}
+
 	// the func function (within the getScript function) will be used as STRING and manipulated and the end of this function getScriptTag
 	async function getScriptTag() {
 		let exportableFunction = () => {
@@ -78,26 +109,9 @@
 				}
 			});
 		};
-		/// END
 
 		// this upcoming part now will have impact on the web app to produce the correct script tag function and the preview banner
-		if (counterNumber && document.querySelector('.climate_strike_counter')) {
-			const initialCount = counterNumber;
-			myInterval = setInterval(() => {
-				let readNumber = document.querySelector('.climate_counter-number').innerHTML;
-				readNumber = Number(readNumber) - 1;
-				document.querySelector('.climate_counter-number').innerHTML = String(readNumber);
-			}, 1000);
-
-			timer = setTimeout(() => {
-				clearInterval(myInterval);
-				setTimeout(() => {
-					document.getElementById('banner_climatestrike').style.display = 'block';
-					forceUpdate = !forceUpdate;
-				}, 2500);
-				document.getElementById('banner_climatestrike').style.display = 'none';
-			}, Number(counter.slice(0, 2)) * 1000);
-		}
+		if (preview) setTimerInPreview();
 
 		const backDrop =
 			'<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;   overflow-y: hidden"/>';
@@ -125,7 +139,7 @@
 
 <body>
 	{#if element && preview}
-		<div on:click={() => (preview = !preview)}>
+		<div on:click={handleClose}>
 			<div style="width: 100%; height: 100%; position: fixed;">
 				<div
 					id="backdrop_climatestrike"
@@ -138,8 +152,8 @@
 				>
 					{@html element.innerHTML}
 					<div class="has-text-centered mx-auto preview-close is-size-4">
-						Click anywhere to close <br />
-						<span class="is-size-5">(Cowntdown does not work in the preview)</span>
+						Click anywhere to close<br />
+						<span class="is-size-5">(works only here in the preview)</span>
 					</div>
 				</div>
 			</div>
@@ -276,12 +290,7 @@
 					</div>
 
 					<a
-						on:click={() => {
-							forceUpdate = !forceUpdate;
-							clearInterval(myInterval);
-							clearTimeout(timer);
-							getScriptTag();
-						}}
+						on:click={handleClick}
 						class="button is-medium is-primary is-responsive"
 						href="/#script_climatestrike">Generate Script Tag</a
 					>
@@ -353,9 +362,12 @@
 				</p>
 				<div class="mx-auto has-text-centered">
 					<button
-						on:click={() => (preview = !preview)}
-						class="button is-responsive is-small is-centered has-text-centered px-6 is-primary"
-						>Preview on full page
+						on:click={() => {
+							preview = !preview;
+							handleClick();
+						}}
+						class="button is-responsive is-medium is-centered has-text-centered px-6 is-primary"
+						>Live Preview
 					</button>
 				</div>
 

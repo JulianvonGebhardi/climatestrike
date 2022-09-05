@@ -17,11 +17,12 @@
 				if (sessionStorage.getItem('climatestrikeBanner2022') === 'true') return;
 				if (url != '#climatestrikebanner_23_09_2022')
 					sessionStorage.setItem('climatestrikeBanner2022', 'true');
+				document.querySelector('html').style['overflow-y'] = 'hidden';
 				document
 					.querySelector('body')
 					.insertAdjacentHTML(
 						'afterbegin',
-						`<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500; overflow-y: hidden"/><div class="column is-10 is-offset-1 is-offset-1 s-wWlsyhdhf8R2" style="height: 100vh; display: flex; align-items: center;"><div id="banner_climatestrike" class="container is-max-widescreen s-wWlsyhdhf8R2"><button class="delete is-medium close_climatestrike s-wWlsyhdhf8R2" style="position: absolute; top: -1rem; right: -1rem;"></button> <button class="button is-medium climate_strike_counter is-responsive -mr-3 s-wWlsyhdhf8R2" style="position: absolute; bottom: -1rem; right: -1rem;"><span class="has-text-weight-medium px-2 is-size-5 is-size-4-desktop climate_counter-number s-wWlsyhdhf8R2">30</span></button> <div class="py-10 px-5 is-relative has-background-info has-text-centered s-wWlsyhdhf8R2" style="border-radius: 4px; overflow: hidden;"><div class="s-wWlsyhdhf8R2" style="position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; opacity: 0.5;"></div> <div class="py-6 s-wWlsyhdhf8R2" style="position: relative; z-index: 10;"><h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold s-wWlsyhdhf8R2"><span class="has-text-white s-wWlsyhdhf8R2">We strike today</span> <span class="has-background-warning has-text-black s-wWlsyhdhf8R2">for our planet!</span></h2> <p class="has-mw-md mb-8 mx-auto has-text-white is-size-5 is-size-4-tablet mt-6 s-wWlsyhdhf8R2">Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online.</p> <a class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive s-wWlsyhdhf8R2" target="_blank" href="https://www.klima-streik.org/"><span class=" s-wWlsyhdhf8R2">More infos</span></a></div></div></div></div>`
+						`<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500; overflow-y: hidden"/><div class="column is-10 is-offset-1 is-offset-1 s-wWlsyhdhf8R2" style="height: 100vh; display: flex; align-items: center;"><div id="banner_climatestrike" class="container is-max-widescreen s-wWlsyhdhf8R2"><button class="delete is-medium close_climatestrike s-wWlsyhdhf8R2" style="position: absolute; top: -1rem; right: -1rem;"></button> <button class="button is-medium climate_strike_counter is-responsive -mr-3 s-wWlsyhdhf8R2" style="position: absolute; bottom: -1rem; right: -1rem;"><span class="has-text-weight-medium px-2 is-size-5 is-size-4-desktop climate_counter-number s-wWlsyhdhf8R2">20</span></button> <div class="py-10 px-5 is-relative has-background-info has-text-centered s-wWlsyhdhf8R2" style="border-radius: 4px; overflow: hidden;"><div style="position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; opacity: 0.5;" class="s-wWlsyhdhf8R2"></div> <div class="py-6 s-wWlsyhdhf8R2" style="position: relative; z-index: 10;"><h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold s-wWlsyhdhf8R2"><span class="has-text-white s-wWlsyhdhf8R2">We strike today</span> <span class="has-background-warning has-text-black s-wWlsyhdhf8R2">for our planet!</span></h2> <p class="has-mw-md mb-8 mx-auto has-text-white is-size-5 is-size-4-tablet mt-6 s-wWlsyhdhf8R2">whatasdasd asd</p> <a class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive s-wWlsyhdhf8R2" target="_blank" href="https://www.klima-streik.org/"><span class=" s-wWlsyhdhf8R2">More infos</span></a></div></div></div></div>`
 					);
 				const styleNode = document.createElement('style');
 				styleNode.setAttribute('id', 'climatestrike_style');
@@ -36,6 +37,7 @@
 						document.getElementById('banner_climatestrike').remove();
 						document.getElementById('backdrop_climatestrike').remove();
 						document.getElementById('climatestrike_style').remove();
+						document.querySelector('html').style['overflow-y'] = 'scroll';
 					});
 				}
 				if (checkCounter) {
@@ -50,6 +52,7 @@
 						document.getElementById('banner_climatestrike').remove();
 						document.getElementById('backdrop_climatestrike').remove();
 						document.getElementById('climatestrike_style').remove();
+						document.querySelector('html').style['overflow-y'] = 'scroll';
 					}, interValCount * 1000);
 				}
 			});
