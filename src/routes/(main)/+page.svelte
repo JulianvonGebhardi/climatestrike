@@ -19,6 +19,7 @@
 	let forceUpdate = false;
 	let myInterval;
 	let timer;
+	let preview = false;
 
 	$: counterNumber = counter.slice(0, 2);
 
@@ -40,8 +41,8 @@
 				if (url != '#climatestrikebanner_23_09_2022')
 					sessionStorage.setItem('climatestrikeBanner2022', 'true');
 
+				document.querySelector('html').style['overflow-y'] = 'hidden';
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
-
 				const styleNode = document.createElement('style');
 				styleNode.setAttribute('id', 'climatestrike_style');
 				let style = `"%cssBanner%"`;
@@ -56,6 +57,7 @@
 						document.getElementById('banner_climatestrike').remove();
 						document.getElementById('backdrop_climatestrike').remove();
 						document.getElementById('climatestrike_style').remove();
+						document.querySelector('html').style['overflow-y'] = 'scroll';
 					});
 				}
 				if (checkCounter) {
@@ -71,6 +73,7 @@
 						document.getElementById('banner_climatestrike').remove();
 						document.getElementById('backdrop_climatestrike').remove();
 						document.getElementById('climatestrike_style').remove();
+						document.querySelector('html').style['overflow-y'] = 'scroll';
 					}, interValCount * 1000);
 				}
 			});
@@ -97,7 +100,8 @@
 		}
 
 		const backDrop =
-			'<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;"/>';
+			'<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;   overflow-y: hidden"/>';
+
 		processingHtml = true;
 		await tick();
 		let scriptString = String(exportableFunction).replace(
@@ -120,7 +124,29 @@
 </script>
 
 <body>
-	<div class="container is-fluid px-0">
+	{#if element && preview}
+		<div on:click={() => (preview = !preview)}>
+			<div style="width: 100%; height: 100%; position: fixed;">
+				<div
+					id="backdrop_climatestrike"
+					style="position: fixed; display: flex; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59);"
+				/>
+
+				<div
+					class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto"
+					style="height: 100vh; display: flex; align-items: center; position: relative;"
+				>
+					{@html element.innerHTML}
+					<div class="has-text-centered mx-auto preview-close is-size-4">
+						Click anywhere to close <br />
+						<span class="is-size-5">(Cowntdown does not work in the preview)</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	{/if}
+
+	<div class="container is-fluid px-0" style={preview ? 'visibility: hidden;' : ''}>
 		<div>
 			<div class="has-background-primary py-8">
 				<h2
@@ -266,7 +292,7 @@
 						style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
 					>
 						<div id="banner_climatestrike" class="container is-max-widescreen">
-							{#if closeIcon}
+							{#if closeIcon || preview}
 								<button
 									class="delete is-medium close_climatestrike"
 									style="position: absolute; top: -1rem; right: -1rem;"
@@ -325,6 +351,14 @@
 				<p class="is-size-4 mb-6 has-text-danger mx-auto has-text-centered">
 					The banner will automatically be added on 23.09.2022 and disappear after that day.
 				</p>
+				<div class="mx-auto has-text-centered">
+					<button
+						on:click={() => (preview = !preview)}
+						class="button is-responsive is-small is-centered has-text-centered px-6 is-primary"
+						>Preview on full page
+					</button>
+				</div>
+
 				<div class="field mb-6" id="script_climatestrike">
 					<label class="label is-size-3" for="">Your Script-Tag</label>
 					<p class="mb-4">
@@ -375,5 +409,13 @@
 <style>
 	button {
 		z-index: 1500;
+	}
+	.preview {
+		z-index: 1000;
+	}
+
+	.preview-close {
+		margin-top: 2rem;
+		color: white;
 	}
 </style>
