@@ -208,7 +208,6 @@
 					Add a smart and customized strike banner to your website and be part of the global
 					climatestrike on the 23.09.2022.
 				</h1>
-				<p>{parsedHeader}</p>
 				<form action="/" on:submit|preventDefault>
 					<p class="is-size-4 mb-6">
 						Once you add the banner to your website (via Script Tag) it will only show up on the
