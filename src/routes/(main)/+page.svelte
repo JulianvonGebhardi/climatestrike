@@ -297,7 +297,7 @@
 				</form>
 				<section class="mt-6 py-6 section" bind:this={element}>
 					<div
-						class="column is-10 is-offset-1 is-offset-1"
+						class="column is-10 is-offset-1 is-offset-1 mr-6-touch ml-6-touch"
 						style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
 					>
 						<div id="banner_climatestrike" class="container is-max-widescreen">
@@ -411,6 +411,11 @@
 					How to do it in wordpress? <a
 						target="_blank"
 						href="https://ostraining.com/blog/wordpress/custom-js/">Here is a guide.</a
+					>
+				</p>
+				<p>
+					How to do it in WIX? <a target="_blank" href="https://www.youtube.com/watch?v=GorkXaOmpx4"
+						>Here is a video on Youtube.</a
 					>
 				</p>
 			</div>
