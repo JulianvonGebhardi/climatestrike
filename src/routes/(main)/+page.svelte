@@ -12,6 +12,8 @@
 	let imgLink;
 	let counter = '10 seconds';
 	let closeIcon = false;
+	let primaryColor = '#1E549C';
+	let secondaryColor = '#ED6F49';
 
 	let element;
 	let scriptTag;
@@ -23,16 +25,17 @@
 	let regexHeader = /\*(.*?)\*/g;
 
 	$: counterNumber = counter.slice(0, 2);
-	$: parsedHeader = handleStringParse(header);
+	$: parsedHeader = handleStringParse(header, secondaryColor);
 
-	function handleStringParse(string) {
+	// second argument is only used to trigger the interactive parsedHeader variable
+	function handleStringParse(string, _) {
 		if (!string.match(regexHeader)) return string;
 		while (string.match(regexHeader)) {
 			let match = string.match(regexHeader)[0];
 			let matchNew = match.replaceAll('*', '');
 			string = string.replace(
 				match,
-				`<span class="has-background-warning has-text-black">${matchNew}</span>`
+				`<span class="has-text-black" style="background-color: ${secondaryColor}">${matchNew}</span>`
 			);
 		}
 		// delete all *
@@ -319,6 +322,18 @@
 							</label>
 						</div>
 					</div>
+					<div class="columns">
+						<div class="column is-12">
+							<label for="checkbox">
+								<input type="color" name="color" id="" bind:value={primaryColor} />
+								<span class=" ml-2 mr-4">Primary Color</span>
+							</label>
+							<label for="checkbox">
+								<input type="color" name="color" id="" bind:value={secondaryColor} />
+								<span class=" ml-2 mr-4">Secondary Color</span>
+							</label>
+						</div>
+					</div>
 
 					<a
 						on:click={handleClick}
@@ -353,8 +368,8 @@
 							{/if}
 
 							<div
-								class="py-10 px-5 is-relative has-background-info has-text-centered"
-								style="border-radius: 4px; overflow: hidden;"
+								class="py-10 px-5 is-relative has-text-centered"
+								style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor};`}
 							>
 								<div
 									style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 50%;"
@@ -376,11 +391,12 @@
 										{content}
 									</p>
 									<a
-										class="button px-6 is-inline-flex is-align-items-center is-warning is-medium is-responsive"
+										class="button px-6 is-inline-flex is-align-items-center is-medium is-responsive"
+										style={`background-color: ${secondaryColor}; border: 0;`}
 										target="_blank"
 										href={link}
 									>
-										<span class="">{btn}</span>
+										<span style="color: white;" class="">{btn}</span>
 									</a>
 								</div>
 							</div>
