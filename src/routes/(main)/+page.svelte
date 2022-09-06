@@ -203,6 +203,7 @@
 
 		<div class="section has-mw-5xl mx-auto">
 			<div class="section container p-0">
+				.
 				<div class="close" id="close_climatestrike" />
 				<h1
 					class="title is-spaced is-2 my-6 is-size-3-desktop is-size-4"
@@ -341,78 +342,82 @@
 						href="/#script_climatestrike">Generate Script Tag</a
 					>
 				</form>
-				<section class="mt-6 py-6 section" bind:this={element}>
+			</div>
+		</div>
+		<section class="mt-6 py-6 section px-0" bind:this={element}>
+			<div
+				class="column is-10 is-offset-1 is-offset-1 mr-6-touch ml-6-touch"
+				style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
+			>
+				<div id="banner_climatestrike" class="container is-max-widescreen">
+					{#if closeIcon || preview}
+						<button
+							class="delete is-medium close_climatestrike"
+							style="position: absolute; top: -1rem; right: -1rem;"
+						/>
+					{/if}
+
+					{#if Number(counterNumber)}
+						{#key forceUpdate}
+							<button
+								class="button is-medium climate_strike_counter is-responsive -mr-3"
+								style="position: absolute; bottom: -1rem; right: -1rem;"
+								><span
+									class="has-text-weight-medium px-2 is-size-5 is-size-4-desktop climate_counter-number"
+									>{counterNumber}</span
+								>
+							</button>
+						{/key}
+					{/if}
+
 					<div
-						class="column is-10 is-offset-1 is-offset-1 mr-6-touch ml-6-touch"
-						style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
+						class="py-10 px-5 is-relative has-text-centered"
+						style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor};`}
 					>
-						<div id="banner_climatestrike" class="container is-max-widescreen">
-							{#if closeIcon || preview}
-								<button
-									class="delete is-medium close_climatestrike"
-									style="position: absolute; top: -1rem; right: -1rem;"
+						<div
+							style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 50%;"
+						>
+							{#if imgLink}
+								<img
+									class="image mx-auto"
+									style="object-size: contain;"
+									src={imgLink ? imgLink : ''}
+									alt={imgLink ? 'Backgroundimage' : ''}
 								/>
 							{/if}
-
-							{#if Number(counterNumber)}
-								{#key forceUpdate}
-									<button
-										class="button is-medium climate_strike_counter is-responsive -mr-3"
-										style="position: absolute; bottom: -1rem; right: -1rem;"
-										><span
-											class="has-text-weight-medium px-2 is-size-5 is-size-4-desktop climate_counter-number"
-											>{counterNumber}</span
-										>
-									</button>
-								{/key}
-							{/if}
-
-							<div
-								class="py-10 px-5 is-relative has-text-centered"
-								style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor};`}
+						</div>
+						<div class="py-6" style="position: relative; z-index: 10;">
+							<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold has-text-white">
+								{@html parsedHeader}
+							</h2>
+							<p class="has-mw-md mb-8 mx-auto has-text-white is-size-5 is-size-4-tablet mt-6">
+								{content}
+							</p>
+							<a
+								class="button px-6 is-inline-flex is-align-items-center is-medium is-responsive"
+								style={`background-color: ${secondaryColor}; border: 0;`}
+								target="_blank"
+								href={link}
 							>
-								<div
-									style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 50%;"
-								>
-									{#if imgLink}
-										<img
-											class="image mx-auto"
-											style="object-size: contain;"
-											src={imgLink ? imgLink : ''}
-											alt={imgLink ? 'Backgroundimage' : ''}
-										/>
-									{/if}
-								</div>
-								<div class="py-6" style="position: relative; z-index: 10;">
-									<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold has-text-white">
-										{@html parsedHeader}
-									</h2>
-									<p class="has-mw-md mb-8 mx-auto has-text-white is-size-5 is-size-4-tablet mt-6">
-										{content}
-									</p>
-									<a
-										class="button px-6 is-inline-flex is-align-items-center is-medium is-responsive"
-										style={`background-color: ${secondaryColor}; border: 0;`}
-										target="_blank"
-										href={link}
-									>
-										<span style="color: white;" class="">{btn}</span>
-									</a>
-								</div>
-							</div>
+								<span style="color: white;" class="">{btn}</span>
+							</a>
 						</div>
 					</div>
-				</section>
+				</div>
+			</div>
+		</section>
+		<div class="has-mw-5xl mx-auto">
+			<div class="section container">
 				<p class="is-size-4 mb-6 has-text-danger mx-auto has-text-centered">
 					The banner will automatically be added on 23.09.2022 and disappear after that day.
 				</p>
-				<div class="mx-auto has-text-centered">
+				<div class="mx-auto has-text-centered mb-6">
 					<button
 						on:click={() => {
 							preview = !preview;
 							handleClick();
 						}}
-						class="button is-responsive is-medium is-centered has-text-centered px-6 is-primary"
+						class="button is-responsive is-large is-centered has-text-centered px-6 is-primary"
 						>Live Preview
 					</button>
 				</div>
