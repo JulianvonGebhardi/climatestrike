@@ -6,7 +6,7 @@
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'More infos';
-	// let header = 'Wir streiken zum globalen Klimastreik!';
+	let header = `We strike for *our Planet*`;
 	let content =
 		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online.';
 	let imgLink;
@@ -20,10 +20,32 @@
 	let myInterval;
 	let timer;
 	let preview = false;
+	let regexHeader = /\*(.*?)\*/g;
 
 	$: counterNumber = counter.slice(0, 2);
+	$: parsedHeader = handleStringParse(header);
+
+	function handleStringParse(string) {
+		if (!string.match(regexHeader)) return string;
+		while (string.match(regexHeader)) {
+			let match = string.match(regexHeader)[0];
+			let matchNew = match.replaceAll('*', '');
+			string = string.replace(
+				match,
+				`<span class="has-background-warning has-text-black">${matchNew}</span>`
+			);
+		}
+		// delete all *
+		string = string.replace('*', '');
+		return string;
+	}
 
 	function handleClick() {
+		// console.log(
+		// 	handleStringParse(header),
+		// 	header.match(regexHeader)[0],
+		// 	header.replace(header.match(regexHeader)[0], `<span>${header.match(regexHeader)[0]}</span>`)
+		// );
 		forceUpdate = !forceUpdate;
 		clearInterval(myInterval);
 		clearTimeout(timer);
@@ -186,19 +208,29 @@
 					Add a smart and customized strike banner to your website and be part of the global
 					climatestrike on the 23.09.2022.
 				</h1>
-
+				<p>{parsedHeader}</p>
 				<form action="/" on:submit|preventDefault>
 					<p class="is-size-4 mb-6">
 						Once you add the banner to your website (via Script Tag) it will only show up on the
 						23.09.2022. (no matter in which time zone you live in)
 					</p>
 
-					<!-- <div class="field mb-6">
+					<div class="field mb-6">
 						<label class="label is-size-4" for="">Banner Header </label>
+						<p class="is-size-6 mb-2">
+							To give the text a background color, simply use the symbol * before and after the
+							word. Example: *Words*
+						</p>
 						<div class="control">
-							<input bind:value="{header}" class="input" type="text" name="field-name" placeholder="Write a text" />
+							<input
+								bind:value={header}
+								class="input"
+								type="text"
+								name="field-name"
+								placeholder="Write a text"
+							/>
 						</div>
-					</div> -->
+					</div>
 
 					<div class="field mb-6">
 						<label class="label is-size-4" for="">Banner Content</label>
@@ -338,9 +370,8 @@
 									{/if}
 								</div>
 								<div class="py-6" style="position: relative; z-index: 10;">
-									<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold">
-										<span class="has-text-white">We strike today</span>
-										<span class="has-background-warning has-text-black">for our planet!</span>
+									<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold has-text-white">
+										{@html parsedHeader}
 									</h2>
 									<p class="has-mw-md mb-8 mx-auto has-text-white is-size-5 is-size-4-tablet mt-6">
 										{content}
