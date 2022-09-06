@@ -151,7 +151,7 @@
 					style="height: 100vh; display: flex; align-items: center; position: relative;"
 				>
 					{@html element.innerHTML}
-					<div class="has-text-centered mx-auto preview-close is-size-4">
+					<div class="has-text-centered mx-auto preview-close is-size-4" style="flex: 1 0 100%;">
 						Click anywhere to close<br />
 						<span class="is-size-5">(works only here in the preview)</span>
 					</div>
