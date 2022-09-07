@@ -13,6 +13,10 @@
 	let closeIcon = false;
 	let primaryColor = '#1E549C';
 	let secondaryColor = '#ED6F49';
+	let headerColor = '#ffffff';
+	let markedHeaderColor = '#000000';
+	let textColor = '#ffffff';
+	let btnTextColor = '#ffffff';
 
 	let element;
 	let scriptTag;
@@ -24,17 +28,17 @@
 	let regexHeader = /\*(.*?)\*/g;
 
 	$: counterNumber = counter.slice(0, 2);
-	$: parsedHeader = handleStringParse(header, secondaryColor);
+	$: parsedHeader = handleStringParse(header, secondaryColor, markedHeaderColor);
 
 	// second argument is only used to trigger the interactive parsedHeader variable
-	function handleStringParse(string, _) {
+	function handleStringParse(string) {
 		if (!string.match(regexHeader)) return string;
 		while (string.match(regexHeader)) {
 			let match = string.match(regexHeader)[0];
 			let matchNew = match.replaceAll('*', '');
 			string = string.replace(
 				match,
-				`<span class="has-text-black" style="background-color: ${secondaryColor}">${matchNew}</span>`
+				`<span style="background-color: ${secondaryColor}; color: ${markedHeaderColor};">${matchNew}</span>`
 			);
 		}
 		// delete all *
@@ -329,11 +333,27 @@
 						<div class="column is-12">
 							<label for="checkbox">
 								<input type="color" name="color" id="" bind:value={primaryColor} />
-								<span class=" ml-2 mr-4">Primary Color</span>
+								<span class=" ml-2 mr-4">Color 1</span>
 							</label>
 							<label for="checkbox">
-								<input type="color" name="color" id="" bind:value={secondaryColor} />
-								<span class=" ml-2 mr-4">Secondary Color</span>
+								<input type="color" name="color1" id="" bind:value={secondaryColor} />
+								<span class=" ml-2 mr-4">Color 2</span>
+							</label>
+							<label for="checkbox">
+								<input type="color" name="color2" id="" bind:value={headerColor} />
+								<span class=" ml-2 mr-4">Header</span>
+							</label>
+							<label for="checkbox">
+								<input type="color" name="color3" id="" bind:value={markedHeaderColor} />
+								<span class=" ml-2 mr-4">Marked Text</span>
+							</label>
+							<label for="checkbox">
+								<input type="color" name="color4" id="" bind:value={textColor} />
+								<span class=" ml-2 mr-4">Text</span>
+							</label>
+							<label for="checkbox">
+								<input type="color" name="color5" id="" bind:value={btnTextColor} />
+								<span class=" ml-2 mr-4">Button Text</span>
 							</label>
 						</div>
 					</div>
@@ -388,11 +408,14 @@
 								/>
 							{/if}
 						</div>
-						<div class="py-6" style="position: relative; z-index: 10;">
-							<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold has-text-white">
+						<div class="py-6" style="position: relative; z-index: 10; color: {headerColor}">
+							<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold">
 								{@html parsedHeader}
 							</h2>
-							<p class="has-mw-md mb-8 mx-auto has-text-white is-size-5 is-size-4-tablet mt-6">
+							<p
+								class="has-mw-md mb-8 mx-auto is-size-5 is-size-4-tablet mt-6"
+								style="color: {textColor};"
+							>
 								{content}
 							</p>
 							<a
@@ -401,7 +424,7 @@
 								target="_blank"
 								href={link}
 							>
-								<span style="color: white;" class="">{btn}</span>
+								<span style="color: {btnTextColor};" class="">{btn}</span>
 							</a>
 						</div>
 					</div>
