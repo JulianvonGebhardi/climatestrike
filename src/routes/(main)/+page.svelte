@@ -38,7 +38,7 @@
 			let matchNew = match.replaceAll('*', '');
 			string = string.replace(
 				match,
-				`<span style="background-color: ${secondaryColor}; color: ${markedHeaderColor};">${matchNew}</span>`
+				`<span style="background-color: ${secondaryColor}; color: ${markedHeaderColor}; padding-left: 6px; padding-right: 6px;">${matchNew}</span>`
 			);
 		}
 		// delete all *
@@ -433,8 +433,12 @@
 		</section>
 		<div class="has-mw-5xl mx-auto">
 			<div class="section container -mt-8">
-				<p class="is-size-4 mb-6 has-text-danger mx-auto has-text-centered">
-					The banner will automatically only be added on 23.09.2022 and disappear after that day.
+				<p class="is-size-6 is-size-5-desktop mb-6 has-text-danger mx-auto has-text-centered">
+					The banner will automatically only be added on <b>23.09.2022</b> and disappear after that
+					day. Once the the banner is closed (either by the countdown or manually) it will only be
+					reloaded when the visitor opens a new tab in the browser but
+					<span class="is-underlined">not</span>
+					when refreshing or navigating on the page.
 					<span class="is-underlined"> Note:</span> Make sure to generate the script again after changing
 					the design or text.
 				</p>
