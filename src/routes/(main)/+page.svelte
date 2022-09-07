@@ -9,7 +9,7 @@
 	let content =
 		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online.';
 	let imgLink;
-	let counter = '10 seconds';
+	let counter;
 	let closeIcon = false;
 	let primaryColor = '#1E549C';
 	let secondaryColor = '#ED6F49';
@@ -27,7 +27,7 @@
 	let preview = false;
 	let regexHeader = /\*(.*?)\*/g;
 
-	$: counterNumber = counter.slice(0, 2);
+	// $: counterNumber = counter.slice(0, 2);
 	$: parsedHeader = handleStringParse(header, secondaryColor, markedHeaderColor);
 
 	// second argument is only used to trigger the interactive parsedHeader variable
@@ -61,19 +61,42 @@
 	}
 
 	function setTimerInPreview() {
-		if (counterNumber && document.querySelector('.climate_strike_counter')) {
-			const initialCount = counterNumber;
+		if (counter && document.querySelector('.climate_strike_counter')) {
 			myInterval = setInterval(() => {
-				let readNumber = document.querySelector('.climate_counter-number').innerHTML;
-				readNumber = Number(readNumber) - 1;
-				document.querySelector('.climate_counter-number').innerHTML = String(readNumber);
-			}, 1000);
+				let readCounter = document.querySelector('.climate_counter-number').innerHTML;
+				//handle counter if time is up
+				if (readCounter === '0' || readCounter === 0) {
+					clearInterval(myInterval);
+					handleClose();
+					return;
+				}
+				let htmlInMinutes =
+					readCounter.indexOf('.') != -1 ||
+					readCounter.indexOf(';') != -1 ||
+					readCounter.indexOf(':') != -1;
+				if (htmlInMinutes) {
+					let counterDecimalIndex;
+					if (readCounter.indexOf('.') != -1) counterDecimalIndex = readCounter.indexOf('.');
+					if (readCounter.indexOf(';') != -1) counterDecimalIndex = readCounter.indexOf(';');
+					if (readCounter.indexOf(':') != -1) counterDecimalIndex = readCounter.indexOf(':');
 
-			timer = setTimeout(() => {
-				clearInterval(myInterval);
-				// document.getElementById('banner_climatestrike').style.display = 'none';
-				handleClose();
-			}, Number(counter.slice(0, 2)) * 1000);
+					let seconds = Number(readCounter.slice(counterDecimalIndex + 1, readCounter.length));
+					let minutes = Number(readCounter.slice(0, counterDecimalIndex));
+					// total seconds is the real time we have to work with
+					if (seconds != 0 || seconds != '0') {
+						seconds = seconds - 1;
+					} else {
+						minutes = minutes - 1;
+						seconds = 59;
+					}
+					document.querySelector('.climate_counter-number').innerHTML = `${
+						minutes === 0 ? '' : minutes + ':'
+					}${seconds < 10 ? `0${seconds}` : seconds}`;
+				} else {
+					let newCounter = Number(readCounter) - 1;
+					document.querySelector('.climate_counter-number').innerHTML = String(newCounter);
+				}
+			}, 1000);
 		}
 	}
 
@@ -115,20 +138,43 @@
 					});
 				}
 				if (checkCounter) {
-					let interValCount = Number(document.querySelector('.climate_counter-number').innerHTML);
-					let myInterval = setInterval(() => {
-						let counterNumber = document.querySelector('.climate_counter-number').innerHTML;
-						counterNumber = Number(counterNumber) - 1;
-						document.querySelector('.climate_counter-number').innerHTML = String(counterNumber);
-					}, 1000);
+					myInterval = setInterval(() => {
+						let readCounter = document.querySelector('.climate_counter-number').innerHTML;
+						if (readCounter === '0' || readCounter === 0) {
+							clearInterval(myInterval);
+							document.getElementById('banner_climatestrike').remove();
+							document.getElementById('backdrop_climatestrike').remove();
+							document.getElementById('climatestrike_style').remove();
+							document.querySelector('html').style['overflow-y'] = 'scroll';
+							return;
+						}
+						let htmlInMinutes =
+							readCounter.indexOf('.') != -1 ||
+							readCounter.indexOf(';') != -1 ||
+							readCounter.indexOf(':') != -1;
+						if (htmlInMinutes) {
+							let counterDecimalIndex;
+							if (readCounter.indexOf('.') != -1) counterDecimalIndex = readCounter.indexOf('.');
+							if (readCounter.indexOf(';') != -1) counterDecimalIndex = readCounter.indexOf(';');
+							if (readCounter.indexOf(':') != -1) counterDecimalIndex = readCounter.indexOf(':');
 
-					setTimeout(() => {
-						clearInterval(myInterval);
-						document.getElementById('banner_climatestrike').remove();
-						document.getElementById('backdrop_climatestrike').remove();
-						document.getElementById('climatestrike_style').remove();
-						document.querySelector('html').style['overflow-y'] = 'scroll';
-					}, interValCount * 1000);
+							let seconds = Number(readCounter.slice(counterDecimalIndex + 1, readCounter.length));
+							let minutes = Number(readCounter.slice(0, counterDecimalIndex));
+
+							if (seconds != 0 || seconds != '0') {
+								seconds = seconds - 1;
+							} else {
+								minutes = minutes - 1;
+								seconds = 59;
+							}
+							document.querySelector('.climate_counter-number').innerHTML = `${
+								minutes === 0 ? '' : minutes + ':'
+							}${seconds < 10 ? `0${seconds}` : seconds}`;
+						} else {
+							let newCounter = Number(readCounter) - 1;
+							document.querySelector('.climate_counter-number').innerHTML = String(newCounter);
+						}
+					}, 1000);
 				}
 			});
 		};
@@ -303,11 +349,13 @@
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select bind:value={counter} name="field-name">
-									<option selected>10 seconds</option>
-									<option>20 seconds</option>
-									<option>30 seconds</option>
-									<option>60 seconds</option>
-									<option>no timer</option>
+									<option selected value="10">10 seconds</option>
+									<option value="20">20 seconds</option>
+									<option value="30">30 seconds</option>
+									<option value="60">60 seconds</option>
+									<option value="120">2 Minuten</option>
+									<option value="300">5 Minuten</option>
+									<option value="noNumber">no timer</option>
 								</select>
 							</div>
 						</div>
@@ -379,14 +427,14 @@
 						/>
 					{/if}
 
-					{#if Number(counterNumber)}
+					{#if Number(counter)}
 						{#key forceUpdate}
 							<button
 								class="button is-medium climate_strike_counter is-responsive -mr-3"
 								style="position: absolute; bottom: -1rem; right: -1rem;"
 								><span
 									class="has-text-weight-medium px-2 is-size-5 is-size-4-desktop climate_counter-number"
-									>{counterNumber}</span
+									>{counter > 60 ? (counter / 60).toFixed(2).replace('.', ':') : counter}</span
 								>
 							</button>
 						{/key}
