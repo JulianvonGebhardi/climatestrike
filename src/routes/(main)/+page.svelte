@@ -2,7 +2,6 @@
 	// @ts-nocheck
 	import { tick } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
-	import { HtmlTag } from 'svelte/internal';
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'More infos';
@@ -44,11 +43,6 @@
 	}
 
 	function handleClick() {
-		// console.log(
-		// 	handleStringParse(header),
-		// 	header.match(regexHeader)[0],
-		// 	header.replace(header.match(regexHeader)[0], `<span>${header.match(regexHeader)[0]}</span>`)
-		// );
 		forceUpdate = !forceUpdate;
 		clearInterval(myInterval);
 		clearTimeout(timer);
@@ -209,13 +203,13 @@
 					class="title is-spaced is-2 my-6 is-size-3-desktop is-size-4"
 					style="line-height: 120%;"
 				>
-					Add a smart and customized strike banner to your website and be part of the global
-					climatestrike on the 23.09.2022.
+					Take only 5 minutes to create and add a smart and customized strike banner to your website
+					and be part of the global climate strike on the 23.09.2022.
 				</h1>
 				<form action="/" on:submit|preventDefault>
 					<p class="is-size-4 mb-6">
-						Once you add the banner to your website (via Script Tag) it will only show up on the
-						23.09.2022. (no matter in which time zone you live in)
+						The banner will automatically be activated on the global strike day, the 23.09.2022. The
+						banner is also fully <b> mobile optimized!</b> (works for all timezones)
 					</p>
 
 					<div class="field mb-6">
@@ -227,7 +221,7 @@
 						<div class="control">
 							<input
 								bind:value={header}
-								class="input"
+								class="input is-size-6"
 								type="text"
 								name="field-name"
 								placeholder="Write a text"
@@ -240,16 +234,16 @@
 						<div class="control">
 							<textarea
 								bind:value={content}
-								class="textarea"
+								class="textarea is-size-6"
 								name="field-name"
-								rows="4"
+								rows="2"
 								placeholder="Write something..."
 							/>
 						</div>
 					</div>
 
 					<div class="field mb-6">
-						<label class="label is-size-4" for="">Call to Action</label>
+						<label class="label is-size-4" for="">Call to Action Button</label>
 						<div class="control">
 							<label class="label my-2" for="">Button Text</label>
 							<input
@@ -273,7 +267,9 @@
 					</div>
 
 					<div class="field mb-6">
-						<label class="label is-size-4" for="">Background Image</label>
+						<label class="label is-size-4" for=""
+							>Background Image <span class="is-size-5">(Optional)</span></label
+						>
 						<p>
 							Please only use images-urls which are hosted by yourself or where you have the
 							permission to do so.
@@ -295,7 +291,11 @@
 					</div>
 
 					<div class="field mb-6">
-						<label class="label is-size-4" for="">Set seconds to show the banner</label>
+						<label class="label is-size-4" for="">Set a strike-time</label>
+						<p class="mb-2">
+							A countdown until the banner will be close automatically. Use the preview button to
+							test it.
+						</p>
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select bind:value={counter} name="field-name">
@@ -310,20 +310,22 @@
 					</div>
 
 					<div class="field mb-6">
-						<div class="control is-size-4">
+						<div class="control is-size-5">
 							<label class="checkbox" for="">
 								<input
 									bind:checked={closeIcon}
 									class="checkbox"
-									style="height: 1.3rem; width: 1.3rem;"
+									style="height: 1.2rem; width: 1.2rem;"
 									type="checkbox"
 									name="field-name"
 									value="example value"
-								/><span class=" ml-2">Let the user close the banner by a close icon</span>
+								/><span class="ml-2"
+									>Let the website visitor close the banner anytime by a close icon</span
+								>
 							</label>
 						</div>
 					</div>
-					<div class="columns">
+					<div class="columns mb-4">
 						<div class="column is-12">
 							<label for="checkbox">
 								<input type="color" name="color" id="" bind:value={primaryColor} />
@@ -407,11 +409,13 @@
 			</div>
 		</section>
 		<div class="has-mw-5xl mx-auto">
-			<div class="section container">
+			<div class="section container -mt-8">
 				<p class="is-size-4 mb-6 has-text-danger mx-auto has-text-centered">
-					The banner will automatically be added on 23.09.2022 and disappear after that day.
+					The banner will automatically only be added on 23.09.2022 and disappear after that day.
+					<span class="is-underlined"> Note:</span> Make sure to generate the script again after changing
+					the design or text.
 				</p>
-				<div class="mx-auto has-text-centered mb-6">
+				<div class="mx-auto has-text-centered mb-6 mt-8">
 					<button
 						on:click={() => {
 							preview = !preview;
@@ -425,10 +429,11 @@
 				<div class="field mb-6" id="script_climatestrike">
 					<label class="label is-size-3" for="">Your Script-Tag</label>
 					<p class="mb-4">
-						Holds all the needed Html, Javascript und Style components. Thats the reason why the
-						code snippet is so long. No externals scripts will be loaded! The banner will be shown
-						on the 23.09.2022 automatically. Before and after this day the banner will not be
-						loaded.
+						Holds all the needed HTML, JavaScript and Style assets. That's the reason why the code
+						snippet is so long. <b>
+							No externals scripts will be loaded! For that reason, it absolutely save and data
+							security compliant.</b
+						> Only when you add a background image, it will be loaded from the source you have given.
 					</p>
 					<div class="control">
 						<textarea
@@ -459,7 +464,7 @@
 					<code class="mb-4"> &#60;head&#62; CODE SNIPPET &#60;/head&#62;</code>
 				</div>
 				<p>
-					How to do it in wordpress? <a
+					How to do it in Wordpress? <a
 						target="_blank"
 						href="https://ostraining.com/blog/wordpress/custom-js/">Here is a guide.</a
 					>
@@ -467,6 +472,17 @@
 				<p>
 					How to do it in WIX? <a target="_blank" href="https://www.youtube.com/watch?v=GorkXaOmpx4"
 						>Here is a video on Youtube.</a
+					>
+				</p>
+				<p class="mt-4">
+					This is a open source project. <a
+						target="_blank"
+						href="https://github.com/JulianvonGebhardi/climatestrike">(Github Repo)</a
+					>
+				</p>
+				<p class="mt-4">
+					Questions, inspiration ect. Contact: <span class="is-underlined"
+						>julian[ät]happyinbox[dot].io</span
 					>
 				</p>
 			</div>
