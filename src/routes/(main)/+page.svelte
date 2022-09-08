@@ -11,6 +11,7 @@
 	let imgLink;
 	let counter;
 	let closeIcon = false;
+	let onlyOnce = false;
 	let primaryColor = '#1E549C';
 	let secondaryColor = '#ED6F49';
 	let headerColor = '#ffffff';
@@ -125,7 +126,11 @@
 					}
 				}
 
-				if (sessionStorage.getItem('climatestrikeBanner2022') === 'true') return;
+				if (
+					sessionStorage.getItem('climatestrikeBanner2022') === 'true' ||
+					localStorage.getItem('climatestrikeBanner2022') === 'true'
+				)
+					return;
 
 				document.querySelector('html').style['overflow-y'] = 'hidden';
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
@@ -159,6 +164,7 @@
 							document.getElementById('backdrop_climatestrike').remove();
 							document.getElementById('climatestrike_style').remove();
 							document.querySelector('html').style['overflow-y'] = 'scroll';
+							localStorage.setItem('climatestrikeBanner2022', 'true');
 							sessionStorage.setItem('climatestrikeBanner2022', 'true');
 							return;
 						}
@@ -390,6 +396,24 @@
 									value="example value"
 								/><span class="ml-2"
 									>Let the website visitor close the banner anytime by a close icon</span
+								>
+							</label>
+						</div>
+					</div>
+					<div class="field mb-6">
+						<div class="control is-size-5">
+							<label class="checkbox" for="" style="line-height: 150%;">
+								<input
+									bind:checked={onlyOnce}
+									class="checkbox"
+									style="height: 1.2rem; width: 1.2rem;"
+									type="checkbox"
+									name="field-name"
+									value="example value"
+								/><span class="ml-2"
+									>Make the banner only appear once. This means that the banner wont be reloaded
+									even when you close the browser or restart your computer as long as you visit the
+									site with the same browser.</span
 								>
 							</label>
 						</div>
