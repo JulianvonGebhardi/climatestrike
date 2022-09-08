@@ -410,11 +410,13 @@
 									type="checkbox"
 									name="field-name"
 									value="example value"
-								/><span class="ml-2"
-									>Make the banner only appear once. This means that the banner wont be reloaded
-									even when you close the browser or restart your computer as long as you visit the
-									site with the same browser.</span
-								>
+								/><span class="ml-2">Make the banner only appear once.</span>
+								<p class="is-size-6 mt-2">
+									This means that the banner wont be reloaded even when you close the browser or
+									restart your computer as long as you visit the site with the same browser. The
+									standard behavior is, that the banner wont be reloaded when navigation or
+									refreshing the site but when opening a new tab or restarting the browser/computer.
+								</p>
 							</label>
 						</div>
 					</div>
@@ -524,12 +526,14 @@
 			<div class="section container -mt-8">
 				<p class="is-size-6 is-size-5-desktop mb-6 has-text-danger mx-auto has-text-centered">
 					The banner will automatically only be added on <b>23.09.2022</b> and disappear after that
-					day. Once the the banner is closed (either by the countdown or manually) it will only be
-					reloaded when the visitor opens a new tab in the browser but
-					<span class="is-underlined">not</span>
-					when refreshing or navigating on the page.
-					<span class="is-underlined"> Note:</span> Make sure to generate the script again after changing
-					the design or text.
+					day.
+					<span class="is-underlined"> Note:</span> Make sure to generate the script again after
+					changing the design or text.
+					<a
+						class="is-underlined has-text-danger"
+						href="/#script_climatestrike"
+						on:click={handleClick}>Generate Script again</a
+					>
 				</p>
 				<div class="mx-auto has-text-centered mb-6 mt-8">
 					<button
