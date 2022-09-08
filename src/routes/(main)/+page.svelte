@@ -60,6 +60,24 @@
 		clearTimeout(timer);
 	}
 
+	function parseTimer(timeString) {
+		//formats 10:00 10.00 and 10;00 // currently not working for hours
+		let checkFormat =
+			timeString.indexOf('.') != -1 ||
+			timeString.indexOf(';') != -1 ||
+			timeString.indexOf(':') != -1;
+		if (!checkFormat) return null;
+		let decimalIndex;
+		if (timeString.indexOf('.') != -1) decimalIndex = timeString.indexOf('.');
+		if (timeString.indexOf(';') != -1) decimalIndex = timeString.indexOf(';');
+		if (timeString.indexOf(':') != -1) decimalIndex = timeString.indexOf(':');
+
+		let seconds = Number(timeString.slice(decimalIndex + 1, timeString.length));
+		let minutes = Number(timeString.slice(0, decimalIndex));
+
+		return { minutes: minutes, seconds: seconds };
+	}
+
 	function setTimerInPreview() {
 		if (counter && document.querySelector('.climate_strike_counter')) {
 			myInterval = setInterval(() => {
@@ -70,18 +88,10 @@
 					handleClose();
 					return;
 				}
-				let htmlInMinutes =
-					readCounter.indexOf('.') != -1 ||
-					readCounter.indexOf(';') != -1 ||
-					readCounter.indexOf(':') != -1;
-				if (htmlInMinutes) {
-					let counterDecimalIndex;
-					if (readCounter.indexOf('.') != -1) counterDecimalIndex = readCounter.indexOf('.');
-					if (readCounter.indexOf(';') != -1) counterDecimalIndex = readCounter.indexOf(';');
-					if (readCounter.indexOf(':') != -1) counterDecimalIndex = readCounter.indexOf(':');
-
-					let seconds = Number(readCounter.slice(counterDecimalIndex + 1, readCounter.length));
-					let minutes = Number(readCounter.slice(0, counterDecimalIndex));
+				if (parseTimer(readCounter)) {
+					let time = parseTimer(readCounter);
+					let seconds = time.seconds;
+					let minutes = time.minutes;
 					// total seconds is the real time we have to work with
 					if (seconds != 0 || seconds != '0') {
 						seconds = seconds - 1;
@@ -89,9 +99,10 @@
 						minutes = minutes - 1;
 						seconds = 59;
 					}
-					document.querySelector('.climate_counter-number').innerHTML = `${
-						minutes === 0 ? '' : minutes + ':'
-					}${seconds < 10 ? `0${seconds}` : seconds}`;
+					let timeString = `${minutes === 0 ? '' : minutes + ':'}${
+						seconds < 10 ? `0${seconds}` : seconds
+					}`;
+					document.querySelector('.climate_counter-number').innerHTML = timeString;
 				} else {
 					let newCounter = Number(readCounter) - 1;
 					document.querySelector('.climate_counter-number').innerHTML = String(newCounter);
@@ -115,11 +126,13 @@
 				}
 
 				if (sessionStorage.getItem('climatestrikeBanner2022') === 'true') return;
-				if (url != '#climatestrikebanner_23_09_2022')
-					sessionStorage.setItem('climatestrikeBanner2022', 'true');
 
 				document.querySelector('html').style['overflow-y'] = 'hidden';
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
+				if (sessionStorage.getItem('lastCounterStrikeTime')) {
+					let lastDetectedTime = sessionStorage.getItem('lastCounterStrikeTime');
+					document.querySelector('.climate_counter-number').innerHTML = lastDetectedTime;
+				}
 				const styleNode = document.createElement('style');
 				styleNode.setAttribute('id', 'climatestrike_style');
 				let style = `"%cssBanner%"`;
@@ -146,6 +159,7 @@
 							document.getElementById('backdrop_climatestrike').remove();
 							document.getElementById('climatestrike_style').remove();
 							document.querySelector('html').style['overflow-y'] = 'scroll';
+							sessionStorage.setItem('climatestrikeBanner2022', 'true');
 							return;
 						}
 						let htmlInMinutes =
@@ -167,12 +181,15 @@
 								minutes = minutes - 1;
 								seconds = 59;
 							}
-							document.querySelector('.climate_counter-number').innerHTML = `${
-								minutes === 0 ? '' : minutes + ':'
-							}${seconds < 10 ? `0${seconds}` : seconds}`;
+							let timeString = `${minutes === 0 ? '' : minutes + ':'}${
+								seconds < 10 ? `0${seconds}` : seconds
+							}`;
+							document.querySelector('.climate_counter-number').innerHTML = timeString;
+							sessionStorage.setItem('lastCounterStrikeTime', timeString);
 						} else {
 							let newCounter = Number(readCounter) - 1;
 							document.querySelector('.climate_counter-number').innerHTML = String(newCounter);
+							sessionStorage.setItem('lastCounterStrikeTime', String(newCounter));
 						}
 					}, 1000);
 				}
@@ -200,7 +217,7 @@
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
-		scriptTag = `<script> const bannerFunc = ${scriptString}; bannerFunc();<\/script>`;
+		scriptTag = `<script> const climateStrikeFunctionScript = ${scriptString}; climateStrikeFunctionScript();<\/script>`;
 
 		return;
 	}
@@ -523,10 +540,11 @@
 				</div>
 				<div class="field mb-6" id="script_climatestrike">
 					<label class="label is-size-3-desktop is-size-4" for="">Test your scripts</label>
-					<p class="mb-4 is-size-4">
+					<p class="mb-4 is-size-5">
 						After you have added the script to your site, you can test it by adding <span
 							>#climatestrikebanner_23_09_2022'</span
-						> at the end of the url.
+						> at the end of the url. Once the countdown is up, you need to open a new tab to test it
+						again.
 					</p>
 					<p>EXAMPLE: https://deineurl.de#climatestrikebanner_23_09_2022</p>
 				</div>
