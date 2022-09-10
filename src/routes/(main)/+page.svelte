@@ -117,21 +117,15 @@
 		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
 				const url = document.location.hash;
-				if (url != '#climatestrikebanner_23_09_2022') {
-					if (
-						Date.now() < new Date('2022-09-23T00:00:01').getTime() ||
-						Date.now() > new Date('2022-09-23T23:59:59').getTime()
-					) {
-						return;
-					}
-				}
-
-				if (
+				const test = url === '#climatestrikebanner_23_09_2022';
+				let itsStrikeDay =
+					Date.now() > new Date('2022-09-23T00:00:01').getTime() ||
+					Date.now() < new Date('2022-09-23T23:59:59').getTime();
+				if (url != '#climatestrikebanner_23_09_2022' || !itsStrikeDay) return;
+				let userHasSeenThis =
 					sessionStorage.getItem('climatestrikeBanner2022') === 'true' ||
-					localStorage.getItem('climatestrikeBanner2022') === 'true'
-				)
-					return;
-
+					localStorage.getItem('climatestrikeBanner2022') === 'true';
+				if (userHasSeenThis) return;
 				document.querySelector('html').style['overflow-y'] = 'hidden';
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
 				if (sessionStorage.getItem('lastCounterStrikeTime')) {
@@ -153,6 +147,16 @@
 						document.getElementById('backdrop_climatestrike').remove();
 						document.getElementById('climatestrike_style').remove();
 						document.querySelector('html').style['overflow-y'] = 'scroll';
+						if (test && checkCounter) return;
+						let saveInLocalStorage = document
+							.getElementById('climatestrike_banner_2022')
+							.classList.contains('onlyonce');
+						if (saveInLocalStorage) {
+							localStorage.setItem('climatestrikeBanner2022', 'true');
+						} else {
+							sessionStorage.setItem('climatestrikeBanner2022', 'true');
+						}
+						return;
 					});
 				}
 				if (checkCounter) {
@@ -164,8 +168,15 @@
 							document.getElementById('backdrop_climatestrike').remove();
 							document.getElementById('climatestrike_style').remove();
 							document.querySelector('html').style['overflow-y'] = 'scroll';
-							localStorage.setItem('climatestrikeBanner2022', 'true');
-							sessionStorage.setItem('climatestrikeBanner2022', 'true');
+							if (test) return;
+							let saveInLocalStorage = document
+								.getElementById('climatestrike_banner_2022')
+								.classList.contains('onlyonce');
+							if (saveInLocalStorage) {
+								localStorage.setItem('climatestrikeBanner2022', 'true');
+							} else {
+								sessionStorage.setItem('climatestrikeBanner2022', 'true');
+							}
 							return;
 						}
 						let htmlInMinutes =
@@ -459,7 +470,12 @@
 				</form>
 			</div>
 		</div>
-		<section class="mt-6 py-6 section px-0" bind:this={element}>
+		<section
+			class="mt-6 py-6 section px-0"
+			bind:this={element}
+			class:onlyonce={onlyOnce}
+			id="climatestrike_banner_2022"
+		>
 			<div
 				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
 				style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
