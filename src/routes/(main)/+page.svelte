@@ -331,7 +331,7 @@
 						<div class="control">
 							<input
 								bind:value={header}
-								class="input is-size-6"
+								class="input is-size-6 is-size-5-tablet"
 								type="text"
 								name="field-name"
 								placeholder="Write a text"
@@ -346,33 +346,37 @@
 								bind:value={content}
 								class="textarea is-size-6"
 								name="field-name"
-								rows="2"
+								rows="3"
 								placeholder="Write something..."
 							/>
 						</div>
 					</div>
 
-					<div class="field mb-6">
-						<label class="label is-size-4" for="">Call to Action Button</label>
-						<div class="control">
-							<label class="label my-2" for="">Button Text</label>
-							<input
-								bind:value={btn}
-								class="input"
-								type="text"
-								name="field-name"
-								placeholder="Write a text"
-							/>
+					<h4 class="label is-size-4" for="">Call to Action Button</h4>
+					<div class="columns">
+						<div class="column is-6">
+							<div class="control">
+								<label class="label my-2" for="">Button Text</label>
+								<input
+									bind:value={btn}
+									class="input"
+									type="text"
+									name="field-name"
+									placeholder="Write a text"
+								/>
+							</div>
 						</div>
-						<div class="control">
-							<label class="label my-2" for="">Button Link</label>
-							<input
-								bind:value={link}
-								class="input"
-								type="text"
-								name="field-link"
-								placeholder="Write a text"
-							/>
+						<div class="column is-6">
+							<div class="control">
+								<label class="label my-2" for="">Button Link</label>
+								<input
+									bind:value={link}
+									class="input"
+									type="text"
+									name="field-link"
+									placeholder="Write a text"
+								/>
+							</div>
 						</div>
 					</div>
 
@@ -459,31 +463,41 @@
 							</label>
 						</div>
 					</div>
-					<div class="columns mb-4">
-						<div class="column is-12">
-							<label for="color">
-								<input type="color" name="color" id="" bind:value={primaryColor} />
-								<span class=" ml-2 mr-4">Color 1</span>
-							</label>
+					<div class="columns mb-4 is-size-6 is-mobile is-centered is-multiline">
+						<div class="column is-2-desktop is-4-tablet is-6-mobile has-text-centered">
 							<label for="color1">
-								<input type="color" name="color1" id="" bind:value={secondaryColor} />
-								<span class=" ml-2 mr-4">Color 2</span>
+								<p>Color 1</p>
+								<input type="color" name="color" id="color1" bind:value={primaryColor} />
 							</label>
+						</div>
+						<div class="column is-2-desktop is-4-tablet is-6-mobile has-text-centered">
 							<label for="color2">
-								<input type="color" name="color2" id="" bind:value={headerColor} />
-								<span class=" ml-2 mr-4">Header</span>
+								<p>Color 2</p>
+								<input type="color" id="color2" bind:value={secondaryColor} />
 							</label>
+						</div>
+						<div class="column is-2-desktop is-4-tablet is-6-mobile has-text-centered">
 							<label for="color3">
-								<input type="color" name="color3" id="" bind:value={markedHeaderColor} />
-								<span class=" ml-2 mr-4">Marked Text</span>
+								<p>Header</p>
+								<input type="color" id="color3" bind:value={headerColor} />
 							</label>
+						</div>
+						<div class="column is-2-desktop is-4-tablet is-6-mobile has-text-centered">
 							<label for="color4">
-								<input type="color" name="color4" id="" bind:value={textColor} />
-								<span class=" ml-2 mr-4">Text</span>
+								<p>Marked Text</p>
+								<input type="color" name="color3" id="color4" bind:value={markedHeaderColor} />
 							</label>
+						</div>
+						<div class="column is-2-desktop is-4-tablet is-6-mobile has-text-centered">
 							<label for="color5">
-								<input type="color" name="color5" id="" bind:value={btnTextColor} />
-								<span class=" ml-2 mr-4">Button Text</span>
+								<p>Text</p>
+								<input type="color" name="color4" id="color5" bind:value={textColor} />
+							</label>
+						</div>
+						<div class="column is-2-desktop is-4-tablet is-6-mobile has-text-centered">
+							<label for="color6">
+								<p>Button Text</p>
+								<input type="color" name="color5" id="color6" bind:value={btnTextColor} />
 							</label>
 						</div>
 					</div>
