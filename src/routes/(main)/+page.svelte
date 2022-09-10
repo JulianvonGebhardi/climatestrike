@@ -147,14 +147,13 @@
 						document.getElementById('backdrop_climatestrike').remove();
 						document.getElementById('climatestrike_style').remove();
 						document.querySelector('html').style['overflow-y'] = 'scroll';
+						sessionStorage.setItem('climatestrikeBanner2022', 'true');
 						if (test && checkCounter) return;
 						let saveInLocalStorage = document
 							.getElementById('climatestrike_banner_2022')
 							.classList.contains('onlyonce');
 						if (saveInLocalStorage) {
 							localStorage.setItem('climatestrikeBanner2022', 'true');
-						} else {
-							sessionStorage.setItem('climatestrikeBanner2022', 'true');
 						}
 						return;
 					});
@@ -168,15 +167,15 @@
 							document.getElementById('backdrop_climatestrike').remove();
 							document.getElementById('climatestrike_style').remove();
 							document.querySelector('html').style['overflow-y'] = 'scroll';
+							sessionStorage.setItem('climatestrikeBanner2022', 'true');
 							if (test) return;
 							let saveInLocalStorage = document
 								.getElementById('climatestrike_banner_2022')
 								.classList.contains('onlyonce');
 							if (saveInLocalStorage) {
 								localStorage.setItem('climatestrikeBanner2022', 'true');
-							} else {
-								sessionStorage.setItem('climatestrikeBanner2022', 'true');
 							}
+
 							return;
 						}
 						let htmlInMinutes =
@@ -590,7 +589,8 @@
 						After you have added the script to your site, you can test it by adding <span
 							>#climatestrikebanner_23_09_2022'</span
 						> at the end of the url. Once the countdown is up, you need to open a new tab to test it
-						again.
+						again. The checkbox "only show once" wont affect the testing environment to make testing
+						easier. (Otherwise you would have to delete your browser storage all the time)
 					</p>
 					<p>EXAMPLE: https://deineurl.de#climatestrikebanner_23_09_2022</p>
 				</div>
