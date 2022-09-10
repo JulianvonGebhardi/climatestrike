@@ -2,6 +2,7 @@
 	// @ts-nocheck
 	import { tick } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
+	import { get } from 'svelte/store';
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'More infos';
@@ -27,6 +28,7 @@
 	let timer;
 	let preview = false;
 	let regexHeader = /\*(.*?)\*/g;
+	let styleViaSriptTag = false;
 
 	// $: counterNumber = counter.slice(0, 2);
 	$: parsedHeader = handleStringParse(header, secondaryColor, markedHeaderColor);
@@ -48,10 +50,12 @@
 	}
 
 	function handleClick() {
-		forceUpdate = !forceUpdate;
-		clearInterval(myInterval);
-		clearTimeout(timer);
-		getScriptTag();
+		setTimeout(() => {
+			forceUpdate = !forceUpdate;
+			clearInterval(myInterval);
+			clearTimeout(timer);
+			getScriptTag();
+		}, 150);
 	}
 
 	function handleClose() {
@@ -116,6 +120,16 @@
 	async function getScriptTag() {
 		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
+				if ('"%styleViaSriptTag%"' === 'true') {
+					let linkNode = document.createElement('link');
+					linkNode.setAttribute('id', 'climatestrike__2022_external_styles');
+					linkNode.setAttribute('rel', 'stylesheet');
+					linkNode.setAttribute(
+						'href',
+						'https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css'
+					);
+					document.head.appendChild(linkNode);
+				}
 				const url = document.location.hash;
 				const test = url === '#climatestrikebanner_23_09_2022';
 				let itsStrikeDay =
@@ -132,10 +146,15 @@
 					let lastDetectedTime = sessionStorage.getItem('lastCounterStrikeTime');
 					document.querySelector('.climate_counter-number').innerHTML = lastDetectedTime;
 				}
+
 				const styleNode = document.createElement('style');
+				styleNode.textContent = `"%cssBanner%"`;
 				styleNode.setAttribute('id', 'climatestrike_style');
-				let style = `"%cssBanner%"`;
-				styleNode.textContent = style;
+				if ('"%styleViaSriptTag%"' != 'true') {
+					styleNode.textContent = cssBanner;
+				} else {
+					styleNode.textContent = 'button{z-index: 1500;}';
+				}
 				document.head.appendChild(styleNode);
 
 				let closeIcon = document.querySelector('.close_climatestrike');
@@ -145,8 +164,9 @@
 						event.preventDefault();
 						document.getElementById('banner_climatestrike').remove();
 						document.getElementById('backdrop_climatestrike').remove();
-						document.getElementById('climatestrike_style').remove();
+						document.getElementById('climatestrike_style')?.remove();
 						document.querySelector('html').style['overflow-y'] = 'scroll';
+						document.getElementById('climatestrike__2022_external_styles')?.remove();
 						sessionStorage.setItem('climatestrikeBanner2022', 'true');
 						if (test && checkCounter) return;
 						let saveInLocalStorage = document
@@ -160,12 +180,13 @@
 				}
 				if (checkCounter) {
 					myInterval = setInterval(() => {
-						let readCounter = document.querySelector('.climate_counter-number').innerHTML;
+						let readCounter = document.querySelector('.climate_counter-number')?.innerHTML;
 						if (readCounter === '0' || readCounter === 0) {
 							clearInterval(myInterval);
 							document.getElementById('banner_climatestrike').remove();
 							document.getElementById('backdrop_climatestrike').remove();
-							document.getElementById('climatestrike_style').remove();
+							document.getElementById('climatestrike_style')?.remove();
+							document.getElementById('climatestrike__2022_external_styles')?.remove();
 							document.querySelector('html').style['overflow-y'] = 'scroll';
 							sessionStorage.setItem('climatestrikeBanner2022', 'true');
 							if (test) return;
@@ -226,7 +247,11 @@
 		);
 
 		const styleNode = document.createElement('style');
-		styleNode.textContent = cssBanner;
+		if (!styleViaSriptTag) {
+			styleNode.textContent = cssBanner;
+		} else {
+			styleNode.textContent = 'button{z-index: 1500;}';
+		}
 		styleNode.setAttribute('id', 'climatestrike_style');
 		scriptString = scriptString.replace('"%cssBanner%"', styleNode.innerHTML);
 
@@ -234,7 +259,9 @@
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
 		scriptTag = `<script> const climateStrikeFunctionScript = ${scriptString}; climateStrikeFunctionScript();<\/script>`;
-
+		if (styleViaSriptTag) {
+			scriptTag = scriptTag.replaceAll('"%styleViaSriptTag%"', 'true');
+		}
 		return;
 	}
 </script>
@@ -572,6 +599,27 @@
 							security compliant.</b
 						> Only when you add a background image, it will be loaded from the source you have given.
 					</p>
+					<div class="control is-size-5">
+						<label
+							on:click={handleClick}
+							class="checkbox mb-6"
+							for="checkbox_climastrike_shortscript"
+							style="line-height: 150%;"
+						>
+							<input
+								bind:checked={styleViaSriptTag}
+								class="checkbox"
+								style="height: 1.2rem; width: 1.2rem;"
+								type="checkbox"
+								name="checkbox_shortscript"
+								id="checkbox_climastrike_shortscript"
+							/><span class="ml-2"
+								>Shorten the script by loading the needed styles via a recommended external script</span
+							> <br /><code class="is-size-7"
+								>Will be loaded from: https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css</code
+							>
+						</label>
+					</div>
 					<div class="control">
 						<textarea
 							readonly
