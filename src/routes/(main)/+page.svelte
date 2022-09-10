@@ -386,14 +386,15 @@
 
 					<div class="field mb-6">
 						<div class="control is-size-5">
-							<label class="checkbox" for="">
+							<label class="checkbox" for="checkbox_climastrike_close">
 								<input
 									bind:checked={closeIcon}
 									class="checkbox"
 									style="height: 1.2rem; width: 1.2rem;"
 									type="checkbox"
-									name="field-name"
+									name="checkbox_close"
 									value="example value"
+									id="checkbox_climastrike_close"
 								/><span class="ml-2"
 									>Let the website visitor close the banner anytime by a close icon</span
 								>
@@ -402,14 +403,15 @@
 					</div>
 					<div class="field mb-6">
 						<div class="control is-size-5">
-							<label class="checkbox" for="" style="line-height: 150%;">
+							<label class="checkbox" for="checkbox_climastrike_save" style="line-height: 150%;">
 								<input
 									bind:checked={onlyOnce}
 									class="checkbox"
 									style="height: 1.2rem; width: 1.2rem;"
 									type="checkbox"
-									name="field-name"
+									name="checkbox_save"
 									value="example value"
+									id="checkbox_climastrike_save"
 								/><span class="ml-2">Make the banner only appear once.</span>
 								<p class="is-size-6 mt-2">
 									This means that the banner wont be reloaded even when you close the browser or
@@ -422,27 +424,27 @@
 					</div>
 					<div class="columns mb-4">
 						<div class="column is-12">
-							<label for="checkbox">
+							<label for="color">
 								<input type="color" name="color" id="" bind:value={primaryColor} />
 								<span class=" ml-2 mr-4">Color 1</span>
 							</label>
-							<label for="checkbox">
+							<label for="color1">
 								<input type="color" name="color1" id="" bind:value={secondaryColor} />
 								<span class=" ml-2 mr-4">Color 2</span>
 							</label>
-							<label for="checkbox">
+							<label for="color2">
 								<input type="color" name="color2" id="" bind:value={headerColor} />
 								<span class=" ml-2 mr-4">Header</span>
 							</label>
-							<label for="checkbox">
+							<label for="color3">
 								<input type="color" name="color3" id="" bind:value={markedHeaderColor} />
 								<span class=" ml-2 mr-4">Marked Text</span>
 							</label>
-							<label for="checkbox">
+							<label for="color4">
 								<input type="color" name="color4" id="" bind:value={textColor} />
 								<span class=" ml-2 mr-4">Text</span>
 							</label>
-							<label for="checkbox">
+							<label for="color5">
 								<input type="color" name="color5" id="" bind:value={btnTextColor} />
 								<span class=" ml-2 mr-4">Button Text</span>
 							</label>
@@ -459,7 +461,7 @@
 		</div>
 		<section class="mt-6 py-6 section px-0" bind:this={element}>
 			<div
-				class="column is-10 is-offset-1 is-offset-1 mr-6-touch ml-6-touch"
+				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
 				style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
 			>
 				<div id="banner_climatestrike" class="container is-max-widescreen">
