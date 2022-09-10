@@ -120,7 +120,10 @@
 	async function getScriptTag() {
 		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
-				if ('"%styleViaSriptTag%"' === 'true') {
+				let styleViaBulmaScript = document
+					.getElementById('climatestrike_banner_2022')
+					.classList.contains('styleViaBulmaScript');
+				if (styleViaBulmaScript) {
 					let linkNode = document.createElement('link');
 					linkNode.setAttribute('id', 'climatestrike__2022_external_styles');
 					linkNode.setAttribute('rel', 'stylesheet');
@@ -150,7 +153,7 @@
 				const styleNode = document.createElement('style');
 				styleNode.textContent = `"%cssBanner%"`;
 				styleNode.setAttribute('id', 'climatestrike_style');
-				if ('"%styleViaSriptTag%"' != 'true') {
+				if (!styleViaBulmaScript) {
 					styleNode.textContent = cssBanner;
 				} else {
 					styleNode.textContent = 'button{z-index: 1500;}';
@@ -259,9 +262,6 @@
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
 		scriptTag = `<script> const climateStrikeFunctionScript = ${scriptString}; climateStrikeFunctionScript();<\/script>`;
-		if (styleViaSriptTag) {
-			scriptTag = scriptTag.replaceAll('"%styleViaSriptTag%"', 'true');
-		}
 		return;
 	}
 </script>
@@ -500,6 +500,7 @@
 			class="mt-6 py-6 section px-0"
 			bind:this={element}
 			class:onlyonce={onlyOnce}
+			class:styleViaBulmaScript={styleViaSriptTag}
 			id="climatestrike_banner_2022"
 		>
 			<div
