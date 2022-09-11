@@ -120,6 +120,18 @@
 	async function getScriptTag() {
 		let exportableFunction = () => {
 			window.addEventListener('load', (event) => {
+				const url = document.location.hash;
+				const test = url === '#climatestrikebanner_23_09_2022';
+				let itsStrikeDay =
+					Date.now() > new Date('2022-09-23T00:00:01').getTime() ||
+					Date.now() < new Date('2022-09-23T23:59:59').getTime();
+				if (url != '#climatestrikebanner_23_09_2022' || !itsStrikeDay) return;
+				let userHasSeenThis =
+					sessionStorage.getItem('climatestrikeBanner2022') === 'true' ||
+					localStorage.getItem('climatestrikeBanner2022') === 'true';
+				if (userHasSeenThis) return;
+				document.querySelector('html').style['overflow-y'] = 'hidden';
+				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
 				let styleViaBulmaScript = document
 					.getElementById('climatestrike_banner_2022')
 					.classList.contains('styleViaBulmaScript');
@@ -133,28 +145,15 @@
 					);
 					document.head.appendChild(linkNode);
 				}
-				const url = document.location.hash;
-				const test = url === '#climatestrikebanner_23_09_2022';
-				let itsStrikeDay =
-					Date.now() > new Date('2022-09-23T00:00:01').getTime() ||
-					Date.now() < new Date('2022-09-23T23:59:59').getTime();
-				if (url != '#climatestrikebanner_23_09_2022' || !itsStrikeDay) return;
-				let userHasSeenThis =
-					sessionStorage.getItem('climatestrikeBanner2022') === 'true' ||
-					localStorage.getItem('climatestrikeBanner2022') === 'true';
-				if (userHasSeenThis) return;
-				document.querySelector('html').style['overflow-y'] = 'hidden';
-				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
 				if (sessionStorage.getItem('lastCounterStrikeTime')) {
 					let lastDetectedTime = sessionStorage.getItem('lastCounterStrikeTime');
 					document.querySelector('.climate_counter-number').innerHTML = lastDetectedTime;
 				}
 
 				const styleNode = document.createElement('style');
-				styleNode.textContent = `"%cssBanner%"`;
 				styleNode.setAttribute('id', 'climatestrike_style');
 				if (!styleViaBulmaScript) {
-					styleNode.textContent = cssBanner;
+					styleNode.textContent = `"%cssBanner%"`;
 				} else {
 					styleNode.textContent = 'button{z-index: 1500;}';
 				}
@@ -246,7 +245,7 @@
 		await tick();
 		let scriptString = String(exportableFunction).replace(
 			'"%innerHtml%"',
-			backDrop + element.innerHTML
+			backDrop + element.outerHTML
 		);
 
 		const styleNode = document.createElement('style');
