@@ -123,9 +123,9 @@
 				const url = document.location.hash;
 				const test = url === '#climatestrikebanner_23_09_2022';
 				let itsStrikeDay =
-					Date.now() > new Date('2022-09-23T00:00:01').getTime() ||
+					Date.now() > new Date('2022-09-23T00:00:01').getTime() &&
 					Date.now() < new Date('2022-09-23T23:59:59').getTime();
-				if (url != '#climatestrikebanner_23_09_2022' || !itsStrikeDay) return;
+				if (url != '#climatestrikebanner_23_09_2022' && !itsStrikeDay) return;
 				let userHasSeenThis =
 					sessionStorage.getItem('climatestrikeBanner2022') === 'true' ||
 					localStorage.getItem('climatestrikeBanner2022') === 'true';
