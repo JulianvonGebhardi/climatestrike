@@ -2,13 +2,12 @@
 	// @ts-nocheck
 	import { tick } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
-	import { get } from 'svelte/store';
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'More infos';
 	let header = `We strike for *our Planet*`;
 	let content =
-		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online.';
+		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online. Please consider using strike time makes some notes on how you could become active to help save our planet for coming generations. **Thank you!**';
 	let imgLink;
 	let counter;
 	let closeIcon = false;
@@ -28,24 +27,39 @@
 	let timer;
 	let preview = false;
 	let regexHeader = /\*(.*?)\*/g;
+	let regexText = /\*\*(.*?)\*\*/g;
 	let styleViaSriptTag = false;
 
-	// $: counterNumber = counter.slice(0, 2);
-	$: parsedHeader = handleStringParse(header, secondaryColor, markedHeaderColor);
+	$: parsedHeader = handleStringParse(
+		header,
+		regexHeader,
+		'*',
+		`backgroundColor`,
+		secondaryColor,
+		markedHeaderColor
+	);
+	$: parseContent = handleStringParse(content, regexText, '**', `fett`, textColor);
 
 	// second argument is only used to trigger the interactive parsedHeader variable
-	function handleStringParse(string) {
-		if (!string.match(regexHeader)) return string;
-		while (string.match(regexHeader)) {
-			let match = string.match(regexHeader)[0];
-			let matchNew = match.replaceAll('*', '');
-			string = string.replace(
-				match,
-				`<span style="background-color: ${secondaryColor}; color: ${markedHeaderColor}; padding-left: 6px; padding-right: 6px;">${matchNew}</span>`
-			);
+	function handleStringParse(string, regex, symbol, result) {
+		if (!string.match(regex)) return string;
+		let lastString = string;
+		while (string.match(regex)) {
+			let match = string.match(regex)[0];
+			let matchNew = match.replaceAll(symbol, '');
+			if (result === 'backgroundColor') {
+				string = string.replace(
+					match,
+					`<span style="background-color: ${secondaryColor}; color: ${markedHeaderColor}; padding-left: 6px; padding-right: 6px;">${matchNew}</span>`
+				);
+			}
+			if (result === 'fett') {
+				string = string.replace(match, `<b style="color: ${textColor}">${matchNew}</b>`);
+			}
+			//TODO add safety net!!! When there is a wrong string in a called funtion the while loop wont stop
 		}
 		// delete all *
-		string = string.replace('*', '');
+		string = string.replace(symbol, '');
 		return string;
 	}
 
@@ -289,17 +303,26 @@
 
 	<div class="container is-fluid px-0">
 		<div>
-			<div class="has-background-primary py-8">
-				<h2
-					class="title is-spaced has-text-centered has-text-white py-6 px-4 -mx-4 is-size-1-desktop is-size-3 is-size-2-tablet mb-0"
-				>
-					🌍 Let´s strike for our planet 🌍
-				</h2>
-				<p
-					class="has-text-centered is-size-2-desktop is-size-4 is-size-3-tablet has-text-white pb-4"
-				>
-					Also in the web!
-				</p>
+			<div class="py-10 has-background-primary">
+				<div class="has-mw-5xl mx-auto has-text-centered">
+					<h2
+						class="title is-spaced is-uppercase has-text-centered has-text-white py-6 px-4 -mx-4 is-size-3-desktop is-size-4 is-size-3-tablet mb-0"
+					>
+						🌍 Let´s strike for our planet 🌍
+					</h2>
+					<p
+						class="has-text-centered is-size-4-desktop is-size-6 is-size-4-tablet has-text-white pb-4 is-underlined"
+					>
+						Also in the web!
+					</p>
+					<h1
+						class="title is-spaced is-2 my-6 is-size-2-desktop is-size-4-mobile is-size-3-tablet has-text-white"
+						style="line-height: 120%;"
+					>
+						Take only 5 minutes to create and add a smart and customized strike banner to your
+						website and be part of the global climate strike on the 23.09.2022.
+					</h1>
+				</div>
 			</div>
 		</div>
 
@@ -307,17 +330,12 @@
 			<div class="section container p-0">
 				.
 				<div class="close" id="close_climatestrike" />
-				<h1
-					class="title is-spaced is-2 my-6 is-size-3-desktop is-size-4"
-					style="line-height: 120%;"
-				>
-					Take only 5 minutes to create and add a smart and customized strike banner to your website
-					and be part of the global climate strike on the 23.09.2022.
-				</h1>
+
 				<form action="/" on:submit|preventDefault>
 					<p class="is-size-4 mb-6">
-						The banner will automatically be activated on the global strike day, the 23.09.2022. The
-						banner is also fully <b> mobile optimized!</b> (works for all timezones)
+						The banner will automatically be activated on the global climatestrike day, the
+						<b>23.09.2022</b>, and disappear the day after. The banner is also fully
+						<b class="has-text-primary"> mobile optimized!</b> (works for all timezones)
 					</p>
 
 					<div class="field mb-6">
@@ -339,6 +357,10 @@
 
 					<div class="field mb-6">
 						<label class="label is-size-4" for="">Banner Content</label>
+						<p class="is-size-6 mb-2">
+							To make a word <span class="has-text-weight-bold">STRONG</span> simply use the symbols
+							** before and after the word. Example: **Words**
+						</p>
 						<div class="control">
 							<textarea
 								bind:value={content}
@@ -354,7 +376,7 @@
 					<div class="columns">
 						<div class="column is-6">
 							<div class="control">
-								<label class="label my-2" for="">Button Text</label>
+								<label class="label" for="">Button Text</label>
 								<input
 									bind:value={btn}
 									class="input"
@@ -366,7 +388,7 @@
 						</div>
 						<div class="column is-6">
 							<div class="control">
-								<label class="label my-2" for="">Button Link</label>
+								<label class="label" for="">Button Link</label>
 								<input
 									bind:value={link}
 									class="input"
@@ -379,7 +401,7 @@
 					</div>
 
 					<div class="field mb-6">
-						<label class="label is-size-4" for=""
+						<label class="label is-size-4 mb-1" for=""
 							>Background Image <span class="is-size-5">(Optional)</span></label
 						>
 						<p>
@@ -403,7 +425,7 @@
 					</div>
 
 					<div class="field mb-6">
-						<label class="label is-size-4" for="">Set a strike-time</label>
+						<label class="label is-size-4 mb-1" for="">Set a strike-time</label>
 						<p class="mb-2">
 							A countdown until the banner will be close automatically. Use the preview button to
 							test it.
@@ -502,11 +524,18 @@
 
 					<a
 						on:click={handleClick}
-						class="button is-medium is-primary is-responsive"
-						href="/#script_climatestrike">Generate Script Tag</a
+						class="button is-medium is-primary is-responsive mt-4"
+						href="/#script_climatestrike">Generate Script-Tag</a
 					>
 				</form>
 			</div>
+		</div>
+		<div class="my-0">
+			<p
+				class=" is-size-6 is-size-5-desktop is-underlined mb-6 has-text-primary mx-auto has-text-centered"
+			>
+				Strike banner design preview below
+			</p>
 		</div>
 		<section
 			class="mt-6 py-6 section px-0"
@@ -565,7 +594,7 @@
 								class="has-mw-md mb-8 mx-auto is-size-5 is-size-4-tablet mt-6"
 								style="color: {textColor};"
 							>
-								{content}
+								{@html parseContent}
 							</p>
 							<a
 								class="button px-6 is-inline-flex is-align-items-center is-medium is-responsive"
@@ -609,8 +638,10 @@
 					<label class="label is-size-3" for="">Your Script-Tag</label>
 					<p class="mb-4">
 						Holds all the needed HTML, JavaScript and Style assets. That's the reason why the code
-						snippet is so long. <b> No externals scripts will be loaded</b>, unless you add the
-						Style Script via the checkbox below or when adding a background image link (source).
+						snippet is so long. <b class="has-text-primary">
+							No externals scripts will be loaded</b
+						>, unless you add the Style Script via the checkbox below or when adding a background
+						image link (source).
 					</p>
 					<div class="control is-size-5">
 						<label
@@ -711,5 +742,17 @@
 
 	.is-fluid {
 		z-index: 1;
+	}
+
+	label.is-size-4,
+	label.is-size-3,
+	a,
+	h4,
+	b {
+		color: #7ebb55;
+	}
+
+	label {
+		color: rgb(61, 61, 61);
 	}
 </style>
