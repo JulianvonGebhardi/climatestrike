@@ -583,10 +583,11 @@
 		<div class="has-mw-5xl mx-auto">
 			<div class="section container -mt-8">
 				<p class="is-size-6 is-size-5-desktop mb-6 has-text-danger mx-auto has-text-centered">
-					The banner will automatically only be added on <b>23.09.2022</b> and disappear after that
-					day.
-					<span class="is-underlined"> Note:</span> Make sure to generate the script again after
-					changing the design or text.
+					Once the script has been added to your website, the strike-banner will automatically be
+					added as overlay (like in the preview) on <b>23.09.2022</b> 00:01 AM and disappear at the
+					same day on 23:59 PM (local time of the person who visits the website)
+					<span class="is-underlined"> <br /><br /> Note:</span> Make sure to generate the script
+					again after changing the design or text.
 					<a
 						class="is-underlined has-text-danger"
 						href="/#script_climatestrike"
