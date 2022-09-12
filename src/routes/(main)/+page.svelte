@@ -51,14 +51,12 @@
 
 	function handleClick() {
 		setTimeout(() => {
-			forceUpdate = !forceUpdate;
-			clearInterval(myInterval);
-			clearTimeout(timer);
 			getScriptTag();
 		}, 150);
 	}
 
 	function handleClose() {
+		document.querySelector('html').style['overflow-y'] = 'scroll';
 		preview = !preview;
 		forceUpdate = !forceUpdate;
 		clearInterval(myInterval);
@@ -84,6 +82,9 @@
 	}
 
 	function setTimerInPreview() {
+		forceUpdate = !forceUpdate;
+		clearInterval(myInterval);
+		clearTimeout(timer);
 		if (counter && document.querySelector('.climate_strike_counter')) {
 			myInterval = setInterval(() => {
 				let readCounter = document.querySelector('.climate_counter-number').innerHTML;
@@ -114,6 +115,8 @@
 				}
 			}, 1000);
 		}
+		document.querySelector('html').style['overflow-y'] = 'hidden';
+		handleClick();
 	}
 
 	// the func function (within the getScript function) will be used as STRING and manipulated and the end of this function getScriptTag
@@ -236,7 +239,6 @@
 		};
 
 		// this upcoming part now will have impact on the web app to produce the correct script tag function and the preview banner
-		if (preview) setTimerInPreview();
 
 		const backDrop =
 			'<div id="backdrop_climatestrike" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;   overflow-y: hidden"/>';
@@ -267,28 +269,25 @@
 
 <body>
 	{#if element && preview}
-		<div on:click={handleClose}>
-			<div style="width: 100%; height: 100%; position: fixed;">
-				<div
-					id="backdrop_climatestrike"
-					style="position: fixed; display: flex; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59);"
-				/>
-
-				<div
-					class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto"
-					style="height: 100vh; display: flex; align-items: center; position: relative;"
-				>
-					{@html element.innerHTML}
-					<div class="has-text-centered mx-auto preview-close is-size-4" style="flex: 1 0 100%;">
-						Click anywhere to close<br />
-						<span class="is-size-5">(works only here in the preview)</span>
-					</div>
+		<div
+			on:click={handleClose}
+			id="backdrop_climatestrike"
+			style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;"
+		>
+			<div
+				class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto"
+				style="height: 100vh; display: flex; align-items: center; position: relative;"
+			>
+				{@html element.innerHTML}
+				<div class="has-text-centered mx-auto preview-close is-size-4" style="flex: 1 0 100%;">
+					Click anywhere to close<br />
+					<span class="is-size-5">(works only here in the preview)</span>
 				</div>
 			</div>
 		</div>
 	{/if}
 
-	<div class="container is-fluid px-0" style={preview ? 'visibility: hidden;' : ''}>
+	<div class="container is-fluid px-0">
 		<div>
 			<div class="has-background-primary py-8">
 				<h2
@@ -515,6 +514,7 @@
 			class:onlyonce={onlyOnce}
 			class:styleViaBulmaScript={styleViaSriptTag}
 			id="climatestrike_banner_2022"
+			style={preview ? 'visibility: hidden;' : ''}
 		>
 			<div
 				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
@@ -597,7 +597,7 @@
 					<button
 						on:click={() => {
 							preview = !preview;
-							handleClick();
+							setTimerInPreview();
 						}}
 						class="button is-responsive is-large is-centered has-text-centered px-6 is-primary"
 						>Live Preview
@@ -691,14 +691,24 @@
 
 <style>
 	button {
-		z-index: 1500;
+		z-index: 700;
 	}
+
+	/* #backdrop_climatestrike {
+		z-index: 1000 !important;
+	} */
+
 	.preview {
-		z-index: 1000;
+		z-index: 5000 !important;
+		position: absolute;
 	}
 
 	.preview-close {
 		margin-top: 2rem;
 		color: white;
+	}
+
+	.is-fluid {
+		z-index: 1;
 	}
 </style>
