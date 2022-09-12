@@ -125,17 +125,10 @@
 				let itsStrikeDay =
 					Date.now() > new Date('2022-09-23T00:00:01').getTime() &&
 					Date.now() < new Date('2022-09-23T23:59:59').getTime();
-				console.log(itsStrikeDay, 'itsstrikeday?');
-				console.log(
-					url != '#climatestrikebanner_23_09_2022' && !itsStrikeDay,
-					`url != '#climatestrikebanner_23_09_2022' && !itsStrikeDay`
-				);
 				if (url != '#climatestrikebanner_23_09_2022' && !itsStrikeDay) return;
-
 				let userHasSeenThis =
 					sessionStorage.getItem('climatestrikeBanner2022') === 'true' ||
 					localStorage.getItem('climatestrikeBanner2022') === 'true';
-				console.log(userHasSeenThis, 'hasSeenThis');
 				if (userHasSeenThis) return;
 				document.querySelector('html').style['overflow-y'] = 'hidden';
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
@@ -615,10 +608,8 @@
 					<label class="label is-size-3" for="">Your Script-Tag</label>
 					<p class="mb-4">
 						Holds all the needed HTML, JavaScript and Style assets. That's the reason why the code
-						snippet is so long. <b>
-							No externals scripts will be loaded! For that reason, it absolutely save and data
-							security compliant.</b
-						> Only when you add a background image, it will be loaded from the source you have given.
+						snippet is so long. <b> No externals scripts will be loaded</b>, unless you add the
+						Style Script via the checkbox below or when adding a background image link (source).
 					</p>
 					<div class="control is-size-5">
 						<label
