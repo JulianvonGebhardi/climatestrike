@@ -286,16 +286,21 @@
 		<div
 			on:click={handleClose}
 			id="backdrop_climatestrike"
-			style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;"
+			style="position: fixed; top: 0px; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;"
 		>
 			<div
-				class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto"
+				class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto mt-6 mt-8-tablet mt-10-desktop"
 				style="height: 100vh; display: flex; align-items: center; position: relative;"
 			>
 				{@html element.innerHTML}
-				<div class="has-text-centered mx-auto preview-close is-size-4" style="flex: 1 0 100%;">
+				<div
+					class="has-text-centered mx-auto preview-close is-size-6 is-size-4-desktop is-size-5-tablet -mt-1-tablet -mt-2"
+					style="flex: 1 0 100%;"
+				>
 					Click anywhere to close<br />
-					<span class="is-size-5">(works only here in the preview)</span>
+					<span class="is-size-7 is-size-5-desktop is-size-6-tablet"
+						>(works only here in the preview)</span
+					>
 				</div>
 			</div>
 		</div>
@@ -607,19 +612,19 @@
 			<div class="section container -mt-8">
 				<div class="mx-auto has-text-centered mb-12 mt-8">
 					<div class="columns is-multiline is-centered">
-						<div class="column is-6 has-text-right">
+						<div class="column is-3 -is-offset-3">
 							<button
 								on:click={() => {
 									preview = !preview;
 									setTimerInPreview();
 								}}
-								class="button is-responsive is-large px-6 is-primary"
+								class="button is-responsive is-large px-6 is-primary mr-5-tablet"
 								>Live Banner Preview
 							</button>
 						</div>
-						<div class="column is-6 has-text-left">
+						<div class="column is-3 -is-offset-3">
 							<a on:click={handleClick} href="/#script_climatestrike">
-								<button class="button is-responsive is-large px-6 is-primary">
+								<button class="button is-responsive is-large px-6 is-primary ml-5-tablet">
 									Generate Script-Tag</button
 								></a
 							>
