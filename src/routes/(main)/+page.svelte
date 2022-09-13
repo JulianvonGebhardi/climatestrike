@@ -7,7 +7,7 @@
 	let btn = 'More infos';
 	let header = `We strike for *our Planet*`;
 	let content =
-		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online. Please consider using strike time makes some notes on how you could become active to help save our planet for coming generations. **Thank you!**';
+		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online. **Please consider** using our strike time to make some notes on how **you** could become active to help save our planet for coming generations. **Thank you!**';
 	let imgLink;
 	let counter;
 	let closeIcon = false;
@@ -316,7 +316,7 @@
 						Also in the web!
 					</p>
 					<h1
-						class="title is-spaced is-2 my-6 is-size-2-desktop is-size-4-mobile is-size-3-tablet has-text-white"
+						class="title is-spaced is-2 my-6 is-size-2-desktop is-size-4-mobile is-size-3-tablet has-text-white px-12-tablet px-6"
 						style="line-height: 120%;"
 					>
 						Take only 5 minutes to create and add a smart and customized strike banner to your
@@ -572,7 +572,7 @@
 
 					<div
 						class="py-10 px-5 is-relative has-text-centered"
-						style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor};`}
+						style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor}; max-height: 80vh; overflow-y: auto;`}
 					>
 						<div
 							style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 50%;"
