@@ -521,12 +521,6 @@
 							</label>
 						</div>
 					</div>
-
-					<a
-						on:click={handleClick}
-						class="button is-medium is-primary is-responsive mt-4"
-						href="/#script_climatestrike">Generate Script-Tag</a
-					>
 				</form>
 			</div>
 		</div>
@@ -612,14 +606,26 @@
 		<div class="has-mw-5xl mx-auto">
 			<div class="section container -mt-8">
 				<div class="mx-auto has-text-centered mb-12 mt-8">
-					<button
-						on:click={() => {
-							preview = !preview;
-							setTimerInPreview();
-						}}
-						class="button is-responsive is-large is-centered has-text-centered px-6 is-primary"
-						>Live Banner Preview
-					</button>
+					<div class="columns is-multiline is-centered">
+						<div class="column is-6 has-text-right">
+							<button
+								on:click={() => {
+									preview = !preview;
+									setTimerInPreview();
+								}}
+								class="button is-responsive is-large px-6 is-primary"
+								>Live Banner Preview
+							</button>
+						</div>
+						<div class="column is-6 has-text-left">
+							<a on:click={handleClick} href="/#script_climatestrike">
+								<button class="button is-responsive is-large px-6 is-primary">
+									Generate Script-Tag</button
+								></a
+							>
+						</div>
+					</div>
+
 					<p class="is-size-7 is-size-6-desktop mt-4">
 						(This is how it will look later on your website)
 					</p>
@@ -632,15 +638,6 @@
 					<b>23.09.2022</b>
 					00:01 AM and disappear at the same day on 23:59 PM (local time of the person who visits the
 					website)
-					<span class="is-underlined is-size-6">
-						<br /><br /> Also make sure to generate the script again after changing the design or
-						text.
-						<a
-							class="is-underlined has-text-danger"
-							href="/#script_climatestrike"
-							on:click={handleClick}>Generate Script again</a
-						>
-					</span>
 				</p>
 
 				<div class="field mb-6" id="script_climatestrike">
@@ -682,8 +679,17 @@
 							placeholder="Click auf den Button um den passenden Code hier zu erhalten"
 							>{scriptTag ? scriptTag : ''}</textarea
 						>
+						<p class="is-size-6 -mt-6">
+							<br /><br /> Make sure to generate the script again after changing the design or text.
+							<a
+								class="is-underlined has-text-danger"
+								href="/#script_climatestrike"
+								on:click={handleClick}>Generate Script again</a
+							>
+						</p>
 					</div>
 				</div>
+
 				<div class="field mb-6" id="script_climatestrike">
 					<label class="label is-size-3-desktop is-size-4" for="">Test your scripts</label>
 					<p class="mb-4 is-size-5">
