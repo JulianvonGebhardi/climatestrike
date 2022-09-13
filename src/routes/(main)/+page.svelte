@@ -538,7 +538,7 @@
 			</p>
 		</div>
 		<section
-			class="mt-6 py-6 section px-0"
+			class="px-0 {processingHtml ? '' : 'mt-6 py-6 section'}"
 			bind:this={element}
 			class:onlyonce={onlyOnce}
 			class:styleViaBulmaScript={styleViaSriptTag}
