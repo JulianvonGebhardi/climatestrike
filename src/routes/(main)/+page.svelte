@@ -28,7 +28,7 @@
 	let preview = false;
 	let regexHeader = /\*(.*?)\*/g;
 	let regexText = /\*\*(.*?)\*\*/g;
-	let styleViaSriptTag = false;
+	let styleViaSriptTag = true;
 
 	$: parsedHeader = handleStringParse(
 		header,
@@ -611,28 +611,37 @@
 		</section>
 		<div class="has-mw-5xl mx-auto">
 			<div class="section container -mt-8">
-				<p class="is-size-6 is-size-5-desktop mb-6 has-text-danger mx-auto has-text-centered">
-					Once the script has been added to your website, the strike-banner will automatically be
-					added as overlay (like in the preview) on <b>23.09.2022</b> 00:01 AM and disappear at the
-					same day on 23:59 PM (local time of the person who visits the website)
-					<span class="is-underlined"> <br /><br /> Note:</span> Make sure to generate the script
-					again after changing the design or text.
-					<a
-						class="is-underlined has-text-danger"
-						href="/#script_climatestrike"
-						on:click={handleClick}>Generate Script again</a
-					>
-				</p>
-				<div class="mx-auto has-text-centered mb-6 mt-8">
+				<div class="mx-auto has-text-centered mb-12 mt-8">
 					<button
 						on:click={() => {
 							preview = !preview;
 							setTimerInPreview();
 						}}
 						class="button is-responsive is-large is-centered has-text-centered px-6 is-primary"
-						>Live Preview
+						>Live Banner Preview
 					</button>
+					<p class="is-size-7 is-size-6-desktop mt-4">
+						(This is how it will look later on your website)
+					</p>
 				</div>
+
+				<p class="is-size-6 is-size-5-desktop mb-6 has-text-danger mx-auto has-text-centered">
+					<span><b class="has-text-danger">General info:</b></span> Once the script has been added
+					to your website, the strike-banner will automatically be added as overlay (like in the
+					preview) on
+					<b>23.09.2022</b>
+					00:01 AM and disappear at the same day on 23:59 PM (local time of the person who visits the
+					website)
+					<span class="is-underlined is-size-6">
+						<br /><br /> Also make sure to generate the script again after changing the design or
+						text.
+						<a
+							class="is-underlined has-text-danger"
+							href="/#script_climatestrike"
+							on:click={handleClick}>Generate Script again</a
+						>
+					</span>
+				</p>
 
 				<div class="field mb-6" id="script_climatestrike">
 					<label class="label is-size-3" for="">Your Script-Tag</label>
