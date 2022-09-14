@@ -401,11 +401,11 @@
 			>
 				{@html element.innerHTML}
 				<div
-					class="has-text-centered mx-auto preview-close is-size-6 is-size-4-desktop is-size-5-tablet -mt-1-tablet -mt-2"
+					class="has-text-centered has-text-weight-medium mx-auto preview-close is-size-7 is-size-5-desktop is-size-6-tablet -mt-1-tablet -mt-2 mt-5-desktop"
 					style="flex: 1 0 100%;"
 				>
-					Click anywhere to close<br />
-					<span class="is-size-7 is-size-5-desktop is-size-6-tablet"
+					Click anywhere to close the preview<br />
+					<span class="is-size-7 is-size-6-tablet has-text-weight-light"
 						>(works only here in the preview)</span
 					>
 				</div>
@@ -638,13 +638,13 @@
 		</div>
 		<div class="my-0">
 			<p
-				class=" is-size-6 is-size-5-desktop is-underlined mb-6 has-text-primary mx-auto has-text-centered"
+				class=" is-size-6 is-size-4-desktop is-size-5-tablet is-underlined mb-6 has-text-primary mx-auto has-text-centered"
 			>
 				Strike banner design preview below
 			</p>
 		</div>
 		<section
-			class="px-0 {processingHtml ? '' : 'mt-6 py-6 section'}"
+			class="px-0 {processingHtml ? '' : 'mt-6 py-20 section box'}"
 			bind:this={element}
 			class:onlyonce={onlyOnce}
 			class:styleViaBulmaScript={styleViaSriptTag}
