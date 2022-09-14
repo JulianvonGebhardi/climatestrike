@@ -4,29 +4,107 @@
 	import { onMount, tick, afterUpdate } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
 
-	function createShareableLink() {
-		const userSettings = new Map([
-			[header, 'header'],
-			[content, 'content'],
-			[imgLink, 'imgLink'],
-			[counter, 'counter'],
-			[closeIcon, 'closeIcon'],
-			[onlyOnce, 'onlyOnce'],
-			[primaryColor, 'primaryColor'],
-			[secondaryColor, 'secondaryColor'],
-			[headerColor, 'headerColor'],
-			[markedHeaderColor, 'markedHeaderColor'],
-			[textColor, 'textColor'],
-			[btnTextColor, 'btnTextColor']
-		]);
+	let mounted = false;
+	onMount(() => {
+		mounted = true;
+		updateCurrentSettings();
+		const linkParams = $page.url.search;
+		if (linkParams === '') return;
+		// Display the key/value pairs
+		const paramSearchObject = new URLSearchParams(linkParams);
+		for (const [key, value] of paramSearchObject.entries()) {
+			if (userSettings.has(key)) {
+				userSettings.set(key, value);
+				if (key === 'header') {
+					header = userSettings.get('header');
+				}
+				if (key === 'content') {
+					content = userSettings.get('content');
+				}
+				if (key === 'btn') {
+					btn = userSettings.get('btn');
+				}
+				if (key === 'link') {
+					link = userSettings.get('link');
+				}
+				if (key === 'imgLink') {
+					imgLink = userSettings.get('imgLink');
+				}
+				if (key === 'closeIcon') {
+					closeIcon = userSettings.get('closeIcon');
+					if (closeIcon === 'true') {
+						closeIcon = true;
+					} else {
+						closeIcon = false;
+					}
+				}
+				if (key === 'onlyOnce') {
+					onlyOnce = userSettings.get('onlyOnce');
+					if (onlyOnce === 'true') {
+						onlyOnce = true;
+					} else {
+						onlyOnce = false;
+					}
+				}
+				if (key === 'counter') {
+					counter = userSettings.get('counter');
+				}
+				if (key === 'primaryColor') {
+					primaryColor = userSettings.get('primaryColor');
+				}
+				if (key === 'secondaryColor') {
+					secondaryColor = userSettings.get('secondaryColor');
+				}
+				if (key === 'headerColor') {
+					headerColor = userSettings.get('headerColor');
+				}
+				if (key === 'markedHeaderColor') {
+					markedHeaderColor = userSettings.get('markedHeaderColor');
+				}
+				if (key === 'textColor') {
+					textColor = userSettings.get('textColor');
+				}
+				if (key === 'btnTextColor') {
+					btnTextColor = userSettings.get('btnTextColor');
+				}
+			}
+		}
+	});
 
+	function updateCurrentSettings() {
+		userSettings = new Map([
+			['header', header],
+			['content', content],
+			['btn', btn],
+			['link', link],
+			['imgLink', imgLink],
+			['counter', counter],
+			['closeIcon', closeIcon],
+			['onlyOnce', onlyOnce],
+			['primaryColor', primaryColor],
+			['secondaryColor', secondaryColor],
+			['headerColor', headerColor],
+			['markedHeaderColor', markedHeaderColor],
+			['textColor', textColor],
+			['btnTextColor', btnTextColor]
+		]);
+	}
+
+	function createShareableLink() {
+		if (!mounted) return;
+		updateCurrentSettings();
 		for (const [key, value] of userSettings) {
-			if (key) {
+			if (key && value != undefined) {
 				let params = $page.url.searchParams;
-				params = params.append(value, key);
+				if (params.has(key)) {
+					params = params.set(key, value);
+				} else {
+					params = params.append(key, value);
+				}
 			}
 		}
 		shareableLink = $page.url.href + $page.url.search;
+		navigator?.clipboard?.writeText(shareableLink);
 	}
 
 	let link = 'https://www.klima-streik.org/';
@@ -56,6 +134,8 @@
 	let regexHeader = /\*(.*?)\*/g;
 	let regexText = /\*\*(.*?)\*\*/g;
 	let styleViaSriptTag = true;
+	let userSettings;
+	let copy = false;
 
 	$: parsedHeader = handleStringParse(
 		header,
@@ -658,8 +738,21 @@
 						</div>
 					</div>
 
-					<p on:click={createShareableLink} class="is-size-7 is-size-6-desktop mt-4">
-						(This is how it will look later on your website)
+					<p class="is-size-6 is-size-5-desktop mt-4">
+						<b>Share your design and all settings via link with a colleque</b>
+					</p>
+					<p
+						on:click={() => {
+							setTimeout(() => {
+								copy = false;
+							}, 1000);
+							copy = true;
+							createShareableLink();
+						}}
+						class="is-clickable is-size-6 has-text-primary mt-4"
+						class:is-underlined={!copy}
+					>
+						{copy ? 'Saved to clipboard!' : 'Copy link to clipboard'}
 					</p>
 				</div>
 
