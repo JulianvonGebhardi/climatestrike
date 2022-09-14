@@ -1,7 +1,33 @@
 <script>
 	// @ts-nocheck
-	import { tick } from 'svelte';
+	import { page } from '$app/stores';
+	import { onMount, tick, afterUpdate } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
+
+	function createShareableLink() {
+		const userSettings = new Map([
+			[header, 'header'],
+			[content, 'content'],
+			[imgLink, 'imgLink'],
+			[counter, 'counter'],
+			[closeIcon, 'closeIcon'],
+			[onlyOnce, 'onlyOnce'],
+			[primaryColor, 'primaryColor'],
+			[secondaryColor, 'secondaryColor'],
+			[headerColor, 'headerColor'],
+			[markedHeaderColor, 'markedHeaderColor'],
+			[textColor, 'textColor'],
+			[btnTextColor, 'btnTextColor']
+		]);
+
+		for (const [key, value] of userSettings) {
+			if (key) {
+				let params = $page.url.searchParams;
+				params = params.append(value, key);
+			}
+		}
+		shareableLink = $page.url.href + $page.url.search;
+	}
 
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'More infos';
@@ -19,6 +45,7 @@
 	let textColor = '#ffffff';
 	let btnTextColor = '#ffffff';
 
+	let shareableLink;
 	let element;
 	let scriptTag;
 	let processingHtml = false;
@@ -631,7 +658,7 @@
 						</div>
 					</div>
 
-					<p class="is-size-7 is-size-6-desktop mt-4">
+					<p on:click={createShareableLink} class="is-size-7 is-size-6-desktop mt-4">
 						(This is how it will look later on your website)
 					</p>
 				</div>
