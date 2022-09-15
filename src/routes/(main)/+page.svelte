@@ -696,12 +696,21 @@
 								/>
 							{/if}
 						</div>
-						<div class="py-6" style="position: relative; z-index: 10; color: {headerColor}">
-							<h2 class="is-size-4 is-size-3-tablet has-text-weight-semibold">
+						<div
+							class="py-6 has-mw-3xl px-4-mobile px-16-tablet mx-auto"
+							style="position: relative; z-index: 10; color: {headerColor}"
+						>
+							<h2
+								class="has-text-weight-semibold mb-10-tablet {processingHtml
+									? 'is-size-5 is-size-2-tablet'
+									: 'is-size-4 is-size-3-tablet'}"
+							>
 								{@html parsedHeader}
 							</h2>
 							<p
-								class="has-mw-md mb-8 mx-auto is-size-5 is-size-4-tablet mt-6"
+								class="mb-12-tablet mb-8 mx-auto mt-6 {processingHtml
+									? 'is-size-6 is-size-5-tablet'
+									: 'is-size-5 is-size-4-tablet'}"
 								style="color: {textColor};"
 							>
 								{@html parseContent}
