@@ -242,7 +242,7 @@
 
 	// the func function (within the getScript function) will be used as STRING and manipulated and the end of this function getScriptTag
 	async function getScriptTag() {
-		let exportableFunction = () => {
+		function exportableFunction() {
 			window.addEventListener('load', (event) => {
 				const url = document.location.hash;
 				const test = url === '#climatestrikebanner_23_09_2022';
@@ -357,7 +357,7 @@
 					}, 1000);
 				}
 			});
-		};
+		}
 
 		// this upcoming part now will have impact on the web app to produce the correct script tag function and the preview banner
 
@@ -383,7 +383,11 @@
 		processingHtml = false;
 		const regex = /(?:\s)\s/g;
 		scriptString = scriptString.replace(regex, '');
-		scriptTag = `<script> const climateStrikeFunctionScript = ${scriptString}; climateStrikeFunctionScript();<\/script>`;
+		const getIdentifer = String(Math.random()).slice(2);
+		//make sure every function has a unique identifier
+		//scriptString = scriptString.replace('exportableFunction', `bannerFunction${getIdentifer}`);
+		//scriptTag = `<script>${scriptString}; bannerFunction${getIdentifer}();<\/script>`;
+		scriptTag = `<script>(${scriptString})();<\/script>`;
 		return;
 	}
 </script>
