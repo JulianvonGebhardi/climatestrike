@@ -681,7 +681,7 @@
 					{/if}
 
 					<div
-						class="py-10 px-5 is-relative has-text-centered"
+						class="py-6 px-5 is-relative has-text-centered"
 						style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor}; max-height: 80vh; overflow-y: auto;`}
 					>
 						<div
@@ -697,11 +697,11 @@
 							{/if}
 						</div>
 						<div
-							class="py-6 has-mw-3xl px-4-mobile px-16-tablet mx-auto"
+							class="py-6 px-4-mobile px-6-tablet mx-auto column is-7-desktop is-10-tablet"
 							style="position: relative; z-index: 10; color: {headerColor}"
 						>
 							<h2
-								class="has-text-weight-semibold mb-10-tablet {processingHtml
+								class="has-text-weight-semibold mb-6-tablet {processingHtml
 									? 'is-size-5 is-size-2-tablet'
 									: 'is-size-4 is-size-3-tablet'}"
 								style="color: {headerColor};"
