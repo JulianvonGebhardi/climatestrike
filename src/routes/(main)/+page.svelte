@@ -704,6 +704,7 @@
 								class="has-text-weight-semibold mb-10-tablet {processingHtml
 									? 'is-size-5 is-size-2-tablet'
 									: 'is-size-4 is-size-3-tablet'}"
+								style="color: {headerColor};"
 							>
 								{@html parsedHeader}
 							</h2>
