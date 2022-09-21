@@ -709,7 +709,7 @@
 								{@html parsedHeader}
 							</h2>
 							<p
-								class="mb-12-tablet mb-8 mx-auto mt-6 {processingHtml
+								class="mb-12-tablet mb-6 mx-auto mt-6 {processingHtml
 									? 'is-size-6 is-size-5-tablet'
 									: 'is-size-5 is-size-4-tablet'}"
 								style="color: {textColor};"
