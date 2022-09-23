@@ -4,6 +4,11 @@
 	import { onMount, tick, afterUpdate } from 'svelte';
 	import cssBanner from '$lib/bannerCss.js';
 
+	///
+	setTimeout(() => {}, 3000);
+
+	///
+
 	let mounted = false;
 	onMount(() => {
 		mounted = true;
@@ -256,9 +261,8 @@
 				if (userHasSeenThis) return;
 				document.querySelector('html').style['overflow-y'] = 'hidden';
 				document.querySelector('body').insertAdjacentHTML('afterbegin', `"%innerHtml%"`);
-				let styleViaBulmaScript = document
-					.getElementById('climatestrike_banner_2022')
-					.classList.contains('styleViaBulmaScript');
+				const bannerElement = document.getElementById('climatestrike_banner_2022');
+				let styleViaBulmaScript = bannerElement.classList.contains('styleViaBulmaScript');
 				if (styleViaBulmaScript) {
 					let linkNode = document.createElement('link');
 					linkNode.setAttribute('id', 'climatestrike__2022_external_styles');
@@ -269,6 +273,13 @@
 					);
 					document.head.appendChild(linkNode);
 				}
+
+				if (window.innerWidth < 769) {
+					console.log('run');
+					bannerElement.firstChild.style.margin = '0 1.5rem 0 1.5rem';
+					console.log(getComputedStyle(bannerElement.firstChild).getPropertyValue('margin'));
+				}
+
 				if (sessionStorage.getItem('lastCounterStrikeTime')) {
 					let lastDetectedTime = sessionStorage.getItem('lastCounterStrikeTime');
 					document.querySelector('.climate_counter-number').innerHTML = lastDetectedTime;
