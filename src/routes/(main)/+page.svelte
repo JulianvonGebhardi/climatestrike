@@ -275,9 +275,9 @@
 				}
 
 				if (window.innerWidth < 769) {
-					console.log('run');
 					bannerElement.firstChild.style.margin = '0 1.5rem 0 1.5rem';
-					console.log(getComputedStyle(bannerElement.firstChild).getPropertyValue('margin'));
+					bannerElement.firstChild.style['padding-right'] = '0';
+					bannerElement.firstChild.style['padding-left'] = '0';
 				}
 
 				if (sessionStorage.getItem('lastCounterStrikeTime')) {
