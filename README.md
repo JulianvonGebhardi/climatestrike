@@ -37,12 +37,14 @@ npm run preview
 
 ### Here are some suggestions
 
+- add a two date input fields to add the functionality for the user to choose the time the banner appears by him or herself
 - add a regex to be able to the getScript function which extracts comments from the exportableFunction. Currently you can not add any comment to the exportableFunction since the browser would not be able to read the compressed script with comments.
 - creating feature-components instead for example of writing all the input functionally in the +page file directly
-- (A big one) write a clean and mobile-optimized css-code to replace the needed bulma script. Test it and inject the styling into the `bannerCss.js`.
+- Write a clean and mobile-optimized css-code to replace the currently needed bulma script for the banner. Test it and inject the styling into the `bannerCss.js`.
 - refactor the code in general like: fix typos, add comments for better code-reading/understanding or simplify parts of the code.
-  ONCE YOU ARE DONE: **Create a pull-request for the development-branch**
 
-## Use the webapp and create a climate strike banner for your website
+ONCE YOU ARE DONE: **Create a pull-request for the development-branch**
+
+### Use the webapp yourself or spread the word
 
 [Climatestrike Editor](https://climatestrike.happyinbox.io) for your target environment.
