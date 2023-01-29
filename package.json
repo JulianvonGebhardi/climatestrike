@@ -11,25 +11,29 @@
 		"test": "playwright test",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"css-build": "node-sass --omit-source-map-url static/sass/bulma-theme.scss static/css/mystyles.css"
+		"css-build": "node-sass --omit-source-map-url static/sass/bulma-theme.scss static/css/mystyles.css",
+		"purge": "purgecss --css ./build/css/mystyles.css  --content ./build/**/*.html ./build/**/*.js  --output ./static/css/purged.css",
+		"purgePopup": "purgecss --css ./build/css/mystyles.css  --content ./static/html/popup.html ./build/_app/**/*.js  --output ./static/css/purgedPopup.css",
+		"updateCss": "echo '// eslint-disable-next-line no-unused-vars' > ./src/lib/purged.js && echo 'const cssStyle = `' >> ./src/lib/purged.js && cat ./static/css/purged.css >> ./src/lib/purged.js && echo '`' >> ./src/lib/purged.js && echo 'export default cssStyle;' >> ./src/lib/purged.js",
+		"updateCssPopup": "echo '// eslint-disable-next-line no-unused-vars' > ./src/lib/purgedPopup.js && echo 'const cssStyle = `' >> ./src/lib/purgedPopup.js && cat ./static/css/purgedPopup.css >> ./src/lib/purgedPopup.js && echo '`' >> ./src/lib/purgedPopup.js && echo 'export default cssStyle;' >> ./src/lib/purgedPopup.js"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.25.0",
 		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-static": "next",
 		"@sveltejs/kit": "next",
-		"eslint": "^8.16.0",
+		"eslint": "^8.32.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",
+		"node-sass": "^8.0.0",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
+		"sass": "^1.57.1",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
-		"typescript": "^4.7.4",
-		"vite": "^3.1.0-beta.1",
 		"svelte-preprocess": "^4.9.4",
-		"sass": "^1.49.0",
-		"node-sass": "^6.0.1",
-		"@sveltejs/adapter-static": "next"
+		"typescript": "^4.7.4",
+		"vite": "^3.1.0-beta.1"
 	},
 	"type": "module",
 	"dependencies": {

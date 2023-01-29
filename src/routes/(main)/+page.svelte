@@ -2,7 +2,8 @@
 	// @ts-nocheck
 	import { page } from '$app/stores';
 	import { onMount, tick, afterUpdate } from 'svelte';
-	import cssBanner from '$lib/bannerCss.js';
+	import cssBanner from '$lib/purgedPopup.js';
+	import store from '$lib/store.js';
 
 	///
 	setTimeout(() => {}, 3000);
@@ -130,6 +131,7 @@
 
 	let shareableLink;
 	let element;
+	let backdrop;
 	let scriptTag;
 	let processingHtml = false;
 	let forceUpdate = false;
@@ -381,6 +383,8 @@
 			'"%innerHtml%"',
 			backDrop + element.outerHTML
 		);
+		// WICHTIG use the current state to save the html without css incl. backdrop
+		store.update(backDrop + element.outerHTML);
 
 		const styleNode = document.createElement('style');
 		if (!styleViaSriptTag) {
@@ -399,6 +403,7 @@
 		//scriptString = scriptString.replace('exportableFunction', `bannerFunction${getIdentifer}`);
 		//scriptTag = `<script>${scriptString}; bannerFunction${getIdentifer}();<\/script>`;
 		scriptTag = `<script>(${scriptString})();<\/script>`;
+		// update store
 		return;
 	}
 </script>
@@ -437,6 +442,7 @@
 					>
 						🌍 Let´s strike for our planet 🌍
 					</h2>
+					<a href="/popup">Popup</a>
 					<p
 						class="has-text-centered is-size-4-desktop is-size-6 is-size-4-tablet has-text-white pb-4 is-underlined"
 					>
@@ -489,6 +495,8 @@
 							** before and after the word. Example: **Words**
 						</p>
 						<div class="control">
+							<!-- create a div tag with with the content the max height of 20 lines and a scroll bar -->
+
 							<textarea
 								bind:value={content}
 								class="textarea is-size-6"
@@ -821,14 +829,20 @@
 						</label>
 					</div>
 					<div class="control">
-						<textarea
-							readonly
-							class="textarea"
-							name="field-name"
-							rows="12"
-							placeholder="Click auf den Button um den passenden Code hier zu erhalten"
-							>{scriptTag ? scriptTag : ''}</textarea
+						<div
+							style="max-height: 15rem; min-height: 15rem;"
+							class="has-background-white"
+							id="scriptTag__text"
 						>
+							<textarea
+								readonly
+								class="textarea"
+								name="field-name"
+								rows="12"
+								placeholder="Click auf den Button um den passenden Code hier zu erhalten"
+								>{scriptTag ? scriptTag : ''}</textarea
+							>
+						</div>
 						<p class="is-size-6 -mt-6">
 							<br /><br /> Make sure to generate the script again after changing the design or text.
 							<a
@@ -919,5 +933,9 @@
 
 	label {
 		color: rgb(61, 61, 61);
+	}
+
+	button {
+		z-index: 1500 !important;
 	}
 </style>
