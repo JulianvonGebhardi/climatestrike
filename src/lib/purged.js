@@ -5257,3 +5257,4 @@ a.has-text-danger:hover, a.has-text-danger:focus {
     max-width: 80rem; } }
 `
 export default cssStyle;
+const cssStyle = `

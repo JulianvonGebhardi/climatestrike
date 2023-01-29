@@ -17645,3 +17645,6 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
     max-width: 72rem; }
   .has-mw-7xl-fullhd {
     max-width: 80rem; } }
+
+button {
+  z-index: 1500 !important; }
