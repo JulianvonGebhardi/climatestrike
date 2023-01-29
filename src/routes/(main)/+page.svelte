@@ -140,7 +140,7 @@
 	let preview = false;
 	let regexHeader = /\*(.*?)\*/g;
 	let regexText = /\*\*(.*?)\*\*/g;
-	let styleViaSriptTag = true;
+	let styleViaSriptTag = false;
 	let userSettings;
 	let copy = false;
 
@@ -822,7 +822,8 @@
 								name="checkbox_shortscript"
 								id="checkbox_climastrike_shortscript"
 							/><span class="ml-2"
-								>Shorten the script by loading the needed styles via a recommended external script</span
+								>Slightly shorten the script by loading the needed css styles via an official
+								external script</span
 							> <br /><code class="is-size-7"
 								>Will be loaded from: https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css</code
 							>
