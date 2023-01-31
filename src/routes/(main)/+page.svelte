@@ -6,9 +6,6 @@
 	import store from '$lib/store.js';
 
 	///
-	setTimeout(() => {}, 3000);
-
-	///
 
 	let mounted = false;
 	onMount(() => {
@@ -116,10 +113,12 @@
 	let link = 'https://www.klima-streik.org/';
 	let btn = 'More infos';
 	let header = `We strike for *our Planet*`;
+	let start__Date;
+	let end__Date;
 	let content =
-		'Today, 23.09.2022, is the day of the global climate strike. We also want to raise awareness by striking online. **Please consider** using our strike time to make some notes on how **you** could become active to help save our planet for coming generations. **Thank you!**';
+		'Today, 23.09.2023, is the day of the global climate strike. We also want to raise awareness by striking online. **Please consider** using our strike time to make some notes on how **you** could become active to help save our planet for coming generations. **Thank you!**';
 	let imgLink;
-	let counter;
+	let counter = 30;
 	let closeIcon = false;
 	let onlyOnce = false;
 	let primaryColor = '#1E549C';
@@ -177,7 +176,24 @@
 		return string;
 	}
 
+	function checkAllValues() {
+		const start__DateNumber = new Date(start__Date).getTime();
+		const end__DateNumber = new Date(end__Date).getTime();
+		if (header && content && btn && link && counter && start__DateNumber < end__DateNumber) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function handleClick() {
+		if (!checkAllValues()) {
+			alert(
+				'Please fill out all fields and make sure you add also the hour in the date fields. Also be sure, that the start date is before the end date.'
+			);
+			return;
+		}
+		console.log(start__Date, end__Date);
 		setTimeout(() => {
 			getScriptTag();
 		}, 150);
@@ -244,7 +260,6 @@
 			}, 1000);
 		}
 		document.querySelector('html').style['overflow-y'] = 'hidden';
-		handleClick();
 	}
 
 	// the func function (within the getScript function) will be used as STRING and manipulated and the end of this function getScriptTag
@@ -254,9 +269,9 @@
 				const url = document.location.hash;
 				const test = url === '#climatestrikebanner_23_09_2022';
 				let itsStrikeDay =
-					Date.now() > new Date('2022-09-23T00:00:01').getTime() &&
-					Date.now() < new Date('2022-09-23T23:59:59').getTime();
-				if (url != '#climatestrikebanner_23_09_2022' && !itsStrikeDay) return;
+					Date.now() > new Date('start__Date').getTime() &&
+					Date.now() < new Date('end__Date').getTime();
+				if (url != '#test_strike_banner' && !itsStrikeDay) return;
 				let userHasSeenThis =
 					sessionStorage.getItem('climatestrikeBanner2022') === 'true' ||
 					localStorage.getItem('climatestrikeBanner2022') === 'true';
@@ -383,6 +398,8 @@
 			'"%innerHtml%"',
 			backDrop + element.outerHTML
 		);
+		scriptString = scriptString.replace('start__Date', start__Date);
+		scriptString = scriptString.replace('end__Date', end__Date);
 		// WICHTIG use the current state to save the html without css incl. backdrop
 		store.update(backDrop + element.outerHTML);
 
@@ -440,7 +457,7 @@
 					<h2
 						class="title is-spaced is-uppercase has-text-centered has-text-white py-6 px-4 -mx-4 is-size-3-desktop is-size-4 is-size-3-tablet mb-0"
 					>
-						🌍 Let´s strike for our planet 🌍
+						🌍 Let´s also strike in the web 🌍
 					</h2>
 					<a href="/popup">Popup</a>
 					<p
@@ -452,9 +469,18 @@
 						class="title is-spaced is-2 my-6 is-size-2-desktop is-size-4-mobile is-size-3-tablet has-text-white px-12-tablet px-6"
 						style="line-height: 120%;"
 					>
-						Take only 5 minutes to create and add a smart and customized strike banner to your
-						website and be part of the global climate strike on the 23.09.2022.
+						Take only 5 minutes to create and add a timed and customized website strike-banner to
+						also create awareness online.
 					</h1>
+					<p
+						on:click={() => {
+							preview = !preview;
+							setTimerInPreview();
+						}}
+						class="is-size-4 has-text-white has-text-weight-bold is-underlined is-clickable"
+					>
+						Show Live-Example
+					</p>
 				</div>
 			</div>
 		</div>
@@ -466,11 +492,45 @@
 
 				<form action="/" on:submit|preventDefault>
 					<p class="is-size-4 mb-6">
-						The banner will automatically be activated on the global climatestrike day, the
-						<b>23.09.2022</b>, and disappear the day after. The banner is also fully
+						The banner is also fully
 						<b class="has-text-primary"> mobile optimized!</b> (works for all timezones)
 					</p>
 
+					<div class="field mb-6">
+						<label id="input__dates" class="label is-size-4" for=""
+							>Dates on which the Banner should appear</label
+						>
+						<p class="is-size-6 mb-2">
+							Select a time period in which the banner should appear. The banner will automatically
+							be activated based on the selected time period and disappear the day after.
+						</p>
+						<div class="control">
+							<div class="columns">
+								<div class="column is-6">
+									<h3 class="is-size-5 has-text-weight-bold">Start Date</h3>
+									<input
+										bind:value={start__Date}
+										class="input is-size-6 is-size-5-tablet"
+										type="datetime-local"
+										name="field-name"
+										placeholder="Write a text"
+									/>
+									<!--elements-->
+								</div>
+								<div class="column is-6">
+									<h3 class="is-size-5 has-text-weight-bold">End Date</h3>
+									<input
+										bind:value={end__Date}
+										class="input is-size-6 is-size-5-tablet"
+										type="datetime-local"
+										name="field-name"
+										placeholder="Write a text"
+									/>
+									<!--elements-->
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="field mb-6">
 						<label class="label is-size-4" for="">Banner Header </label>
 						<p class="is-size-6 mb-2">
@@ -568,9 +628,9 @@
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select bind:value={counter} name="field-name">
-									<option selected value="10">10 seconds</option>
+									<option value="10">10 seconds</option>
 									<option value="20">20 seconds</option>
-									<option value="30">30 seconds</option>
+									<option selected value="30">30 seconds</option>
 									<option value="60">60 seconds</option>
 									<option value="120">2 Minuten</option>
 									<option value="300">5 Minuten</option>
@@ -791,11 +851,9 @@
 
 				<p class="is-size-6 is-size-5-desktop mb-6 has-text-danger mx-auto has-text-centered">
 					<span><b class="has-text-danger">General info:</b></span> Once the script has been added
-					to your website, the strike-banner will automatically be added as overlay (like in the
-					preview) on
-					<b>23.09.2022</b>
-					00:01 AM and disappear at the same day on 23:59 PM (local time of the person who visits the
-					website)
+					to your website, the strike-banner will automatically be activated and deactivated
+					according to <a href="#input__dates"><b>the selected time-period</b> </a> (Its always based
+					on your local time)
 				</p>
 
 				<div class="field mb-6" id="script_climatestrike">
@@ -859,12 +917,12 @@
 					<label class="label is-size-3-desktop is-size-4" for="">Test your scripts</label>
 					<p class="mb-4 is-size-5">
 						After you have added the script to your site, you can test it by adding <span
-							>#climatestrikebanner_23_09_2022'</span
+							>#test_strike_banner</span
 						> at the end of the url. Once the countdown is up, you need to open a new tab to test it
 						again. The checkbox "only show once" wont affect the testing environment to make testing
 						easier. (Otherwise you would have to delete your browser storage all the time)
 					</p>
-					<p>EXAMPLE: https://deineurl.de#climatestrikebanner_23_09_2022</p>
+					<p>EXAMPLE: https://deineurl.de#test_strike_banner</p>
 				</div>
 				<div class="field mb-6">
 					<label class="label is-size-3-desktop is-size-4" for="">Add the script to your site</label

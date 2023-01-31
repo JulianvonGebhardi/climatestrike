@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import store from '$lib/store.js';
 </script>
 
