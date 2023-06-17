@@ -800,7 +800,7 @@
 							</div>
 							{#if Number(counter)}
 								{#key forceUpdate}
-									<span class="countdown-field"
+									<span class="countdown-field climate_counter-number"
 										>{counter > 60 ? (counter / 60).toFixed(2).replace('.', ':') : counter}</span
 									>
 								{/key}
