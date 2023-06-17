@@ -427,25 +427,16 @@
 
 <body>
 	{#if element && preview}
-		<div
-			on:click={handleClose}
-			id="backdrop_climatestrike"
-			style="position: fixed; top: 0px; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;"
-		>
+		<div on:click={handleClose} id="backdrop_climatestrike" class="modal">
+			{@html element.innerHTML}
 			<div
-				class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto mt-6 mt-8-tablet mt-10-desktop"
-				style="height: 100vh; display: flex; align-items: center; position: relative;"
+				class="has-text-centered has-text-weight-medium mx-auto preview-close is-size-7 is-size-5-desktop is-size-6-tablet -mt-1-tablet -mt-2 mt-5-desktop"
+				style="flex: 1 0 100%;"
 			>
-				{@html element.innerHTML}
-				<div
-					class="has-text-centered has-text-weight-medium mx-auto preview-close is-size-7 is-size-5-desktop is-size-6-tablet -mt-1-tablet -mt-2 mt-5-desktop"
-					style="flex: 1 0 100%;"
+				Click anywhere to close the preview<br />
+				<span class="is-size-7 is-size-6-tablet has-text-weight-light"
+					>(works only here in the preview)</span
 				>
-					Click anywhere to close the preview<br />
-					<span class="is-size-7 is-size-6-tablet has-text-weight-light"
-						>(works only here in the preview)</span
-					>
-				</div>
 			</div>
 		</div>
 	{/if}
@@ -734,75 +725,50 @@
 			id="climatestrike_banner_2022"
 			style={preview ? 'visibility: hidden;' : ''}
 		>
-			<div
-				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
-				style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
-			>
-				<div id="banner_climatestrike" class="container is-max-widescreen">
-					{#if closeIcon || preview}
-						<button
-							class="delete is-medium close_climatestrike"
-							style="position: absolute; top: -1rem; right: -1rem;"
-						/>
-					{/if}
+			<div class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile" style="">
+				<div class="modal-content">
+					<div id="banner_climatestrike">
+						{#if closeIcon || preview}
+							<span class="close-icon">&times;</span>
+						{/if}
 
-					{#if Number(counter)}
-						{#key forceUpdate}
-							<button
-								class="button is-medium climate_strike_counter is-responsive -mr-3"
-								style="position: absolute; bottom: -1rem; right: -1rem;"
-								><span
-									class="has-text-weight-medium px-2 is-size-5 is-size-4-desktop climate_counter-number"
-									>{counter > 60 ? (counter / 60).toFixed(2).replace('.', ':') : counter}</span
+						<div
+							style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor}; max-height: 80vh; overflow-y: auto;`}
+						>
+							<div
+								style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 50%;"
+							>
+								{#if imgLink}
+									<img
+										style="object-size: contain;"
+										src={imgLink ? imgLink : ''}
+										alt={imgLink ? 'Backgroundimage' : ''}
+									/>
+								{/if}
+							</div>
+							<div class="text" style="color: {headerColor}">
+								<h2 class="modal-heading" style="color: {headerColor};">
+									{@html parsedHeader}
+								</h2>
+								<p style="color: {textColor};">
+									{@html parseContent}
+								</p>
+								<a
+									class="modal-button"
+									style={`background-color: ${secondaryColor}; border: 0;`}
+									target="_blank"
+									href={link}
 								>
-							</button>
-						{/key}
-					{/if}
-
-					<div
-						class="py-6 px-5 is-relative has-text-centered"
-						style={`border-radius: 4px; overflow: hidden; background-color: ${primaryColor}; max-height: 80vh; overflow-y: auto;`}
-					>
-						<div
-							style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 50%;"
-						>
-							{#if imgLink}
-								<img
-									class="image mx-auto"
-									style="object-size: contain;"
-									src={imgLink ? imgLink : ''}
-									alt={imgLink ? 'Backgroundimage' : ''}
-								/>
+									<span style="color: {btnTextColor};" class="">{btn}</span>
+								</a>
+							</div>
+							{#if Number(counter)}
+								{#key forceUpdate}
+									<span class="countdown-field"
+										>{counter > 60 ? (counter / 60).toFixed(2).replace('.', ':') : counter}</span
+									>
+								{/key}
 							{/if}
-						</div>
-						<div
-							class="py-6 px-4-mobile px-6-tablet mx-auto column is-7-desktop is-10-tablet"
-							style="position: relative; z-index: 10; color: {headerColor}"
-						>
-							<h2
-								class="has-text-weight-semibold mb-6-tablet {processingHtml
-									? 'is-size-5 is-size-2-tablet'
-									: 'is-size-4 is-size-3-tablet'}"
-								style="color: {headerColor};"
-							>
-								{@html parsedHeader}
-							</h2>
-							<p
-								class="mb-12-tablet mb-6 mx-auto mt-6 {processingHtml
-									? 'is-size-6 is-size-5-tablet'
-									: 'is-size-5 is-size-4-tablet'}"
-								style="color: {textColor};"
-							>
-								{@html parseContent}
-							</p>
-							<a
-								class="button px-6 is-inline-flex is-align-items-center is-medium is-responsive"
-								style={`background-color: ${secondaryColor}; border: 0;`}
-								target="_blank"
-								href={link}
-							>
-								<span style="color: {btnTextColor};" class="">{btn}</span>
-							</a>
 						</div>
 					</div>
 				</div>
@@ -959,7 +925,7 @@
 	</div>
 </body>
 
-<style>
+<style lang="scss">
 	button {
 		z-index: 700;
 	}
@@ -996,5 +962,120 @@
 
 	button {
 		z-index: 1500 !important;
+	}
+
+	/*TESTING*/
+
+	/* Modal Styles */
+	.modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 9999;
+		background-color: rgba(0, 0, 0, 0.5); /* Backdrop color */
+		overflow: auto;
+	}
+
+	.modal-content {
+		max-width: 95%;
+		width: 800px;
+		// min-height: %;
+		// min-height: 300px;
+		background-color: #fff;
+		padding-left: 4rem;
+		padding-right: 4rem;
+		padding-bottom: 2rem;
+		padding-top: 1rem;
+		border-radius: 5px;
+		position: absolute;
+		text-align: center;
+		box-sizing: border-box;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.text {
+		overflow: auto;
+		// min-height: 200px;
+		max-height: 90vh;
+	}
+
+	.modal-heading {
+		font-size: 24px;
+		margin-bottom: 20px;
+		word-wrap: break-word; /* Wrap long words to the next line */
+	}
+
+	.modal-content p {
+		margin-bottom: 20px;
+		word-wrap: break-word; /* Wrap long words to the next */
+		overflow-y: auto;
+		max-height: 60vh;
+	}
+
+	.modal-button {
+		display: inline-block;
+		background-color: #4caf50;
+		color: #fff;
+		padding: 10px 20px;
+		border-radius: 5px;
+		text-decoration: none;
+	}
+
+	.close-icon {
+		transform: translate(50%, -50%);
+		position: absolute;
+		top: 0rem;
+		right: 0rem;
+		font-size: 1.5rem;
+		cursor: pointer;
+		border: none;
+		border-radius: 50%;
+		background-color: #ccc;
+		width: 1.7rem;
+		height: 1.7rem;
+		color: #000000;
+		padding: 0;
+		font-weight: 700;
+		margin: 0;
+	}
+
+	.countdown-field {
+		position: absolute;
+		bottom: 0rem;
+		right: 0rem;
+		background-color: #4caf50;
+		color: #fff;
+		padding: 5px 10px;
+		border-radius: 5px;
+		font-size: 16px;
+		transform: translate(50%, 50%);
+	}
+
+	.modal.with-background {
+		background-image: url('your-image-url.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+	@media (max-width: 769px) {
+		.modal-content {
+			padding-left: 1rem;
+			padding-right: 1rem;
+			margin-top: 2.5rem;
+			max-width: 90%;
+		}
+	}
+
+	@media (max-height: 400px) {
+		.modal-content {
+			margin-top: 2.5rem;
+		}
 	}
 </style>
