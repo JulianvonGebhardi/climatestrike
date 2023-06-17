@@ -757,12 +757,14 @@
 			style={preview ? 'visibility: hidden;' : ''}
 		>
 			<div
-				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
+				class="modal-content {processingHtml
+					? ''
+					: 'column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile'}"
 				style="{processingHtml
-					? 'height: 100vh; display: flex; align-items: center;'
-					: ''} position: relative; padding: 0;"
+					? 'position: absolute;	max-width: 95%; width: 800px; top: 50%; left: 50%; transform: translate(-50%, -50%);'
+					: 'height: 50vh; display: flex; align-items: center;'} padding: 0;"
 			>
-				<div class={processingHtml ? 'modal-content' : ''}>
+				<div class={processingHtml ? '' : ''} style="position: relative;">
 					<div id="banner_climatestrike">
 						{#if closeIcon || preview}
 							<span class="close-icon">&times;</span>
@@ -800,9 +802,11 @@
 							</div>
 							{#if Number(counter)}
 								{#key forceUpdate}
-									<span class="countdown-field climate_counter-number"
-										>{counter > 60 ? (counter / 60).toFixed(2).replace('.', ':') : counter}</span
-									>
+									<div class="climate_strike_counter">
+										<span class="countdown-field climate_counter-number"
+											>{counter > 60 ? (counter / 60).toFixed(2).replace('.', ':') : counter}</span
+										>
+									</div>
 								{/key}
 							{/if}
 						</div>
@@ -1007,6 +1011,7 @@
 	/*TESTING*/
 
 	/* Modal Styles */
+
 	.modal {
 		text-align: center;
 		position: fixed;
@@ -1023,35 +1028,42 @@
 	}
 
 	.modal-content {
-		max-width: 95%;
-		width: 800px;
-		// min-height: %;
-		// min-height: 300px;
-		background-color: #fff;
+		// background-color: #fff;
 		padding-left: 4rem;
 		padding-right: 4rem;
 		padding-bottom: 2rem;
 		padding-top: 1rem;
 		border-radius: 5px;
-		position: absolute;
+
 		text-align: center;
 		box-sizing: border-box;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
 	}
 
 	.text {
+		font-size: 1.15rem;
 		overflow: auto;
 		// min-height: 200px;
 		max-height: 90vh;
 		padding: 2rem 3rem 2rem 3rem;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+
+		@media (max-width: 769px) {
+			font-size: 0.9rem;
+		}
 	}
 
 	.modal-heading {
-		font-size: 24px;
+		font-size: 2.2rem;
+		font-weight: 700;
 		margin-bottom: 20px;
 		word-wrap: break-word; /* Wrap long words to the next line */
+		@media (max-width: 769px) {
+			font-size: 1.5rem;
+		}
 	}
 
 	.modal-content p {
