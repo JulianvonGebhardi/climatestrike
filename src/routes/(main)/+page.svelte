@@ -758,7 +758,9 @@
 		>
 			<div
 				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
-				style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
+				style="{processingHtml
+					? 'height: 100vh; display: flex; align-items: center;'
+					: ''} position: relative; padding: 0;"
 			>
 				<div class={processingHtml ? 'modal-content' : ''}>
 					<div id="banner_climatestrike">
@@ -1043,6 +1045,7 @@
 		overflow: auto;
 		// min-height: 200px;
 		max-height: 90vh;
+		padding: 2rem 3rem 2rem 3rem;
 	}
 
 	.modal-heading {
@@ -1052,13 +1055,13 @@
 	}
 
 	.modal-content p {
-		margin-bottom: 20px;
 		word-wrap: break-word; /* Wrap long words to the next */
 		overflow-y: auto;
 		max-height: 60vh;
 	}
 
 	.modal-button {
+		margin-top: 2rem;
 		display: inline-block;
 		background-color: #4caf50;
 		color: #fff;
