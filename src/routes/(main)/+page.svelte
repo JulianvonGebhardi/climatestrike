@@ -725,7 +725,10 @@
 			id="climatestrike_banner_2022"
 			style={preview ? 'visibility: hidden;' : ''}
 		>
-			<div class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile" style="">
+			<div
+				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
+				style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
+			>
 				<div class="modal-content">
 					<div id="banner_climatestrike">
 						{#if closeIcon || preview}
