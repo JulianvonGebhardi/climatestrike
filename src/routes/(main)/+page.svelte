@@ -729,7 +729,7 @@
 				class="column is-10 is-offset-1 is-offset-1 mr-6-mobile ml-6-mobile"
 				style={processingHtml ? 'height: 100vh; display: flex; align-items: center;' : ''}
 			>
-				<div class="modal-content">
+				<div class={processingHtml ? 'modal-content' : ''}>
 					<div id="banner_climatestrike">
 						{#if closeIcon || preview}
 							<span class="close-icon">&times;</span>
@@ -929,6 +929,10 @@
 </body>
 
 <style lang="scss">
+	section {
+		text-align: center;
+	}
+
 	button {
 		z-index: 700;
 	}
@@ -971,6 +975,7 @@
 
 	/* Modal Styles */
 	.modal {
+		text-align: center;
 		position: fixed;
 		top: 0;
 		left: 0;
