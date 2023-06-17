@@ -428,18 +428,49 @@
 <body>
 	{#if element && preview}
 		<div on:click={handleClose} id="backdrop_climatestrike" class="modal">
-			{@html element.innerHTML}
 			<div
-				class="has-text-centered has-text-weight-medium mx-auto preview-close is-size-7 is-size-5-desktop is-size-6-tablet -mt-1-tablet -mt-2 mt-5-desktop"
-				style="flex: 1 0 100%;"
+				class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto mt-6 mt-8-tablet mt-10-desktop"
+				style="height: 100vh; display: flex; align-items: center; position: relative;"
 			>
-				Click anywhere to close the preview<br />
-				<span class="is-size-7 is-size-6-tablet has-text-weight-light"
-					>(works only here in the preview)</span
+				{@html element.innerHTML}
+				<div
+					class="has-text-centered has-text-weight-medium mx-auto preview-close is-size-7 is-size-5-desktop is-size-6-tablet -mt-1-tablet -mt-2 mt-5-desktop"
+					style="flex: 1 0 100%;"
 				>
+					Click anywhere to close the preview<br />
+					<span class="is-size-7 is-size-6-tablet has-text-weight-light"
+						>(works only here in the preview)</span
+					>
+				</div>
 			</div>
 		</div>
 	{/if}
+
+	<!--
+	{#if element && preview}
+		<div
+			on:click={handleClose}
+			id="backdrop_climatestrike"
+			style="position: fixed; top: 0px; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.59); z-index: 500;"
+		>
+			<div
+				class="preview is-flex-wrap-wrap is-align-content-center has-text-centered mx-auto mt-6 mt-8-tablet mt-10-desktop"
+				style="height: 100vh; display: flex; align-items: center; position: relative;"
+			>
+				{@html element.innerHTML}
+				<div
+					class="has-text-centered has-text-weight-medium mx-auto preview-close is-size-7 is-size-5-desktop is-size-6-tablet -mt-1-tablet -mt-2 mt-5-desktop"
+					style="flex: 1 0 100%;"
+				>
+					Click anywhere to close the preview<br />
+					<span class="is-size-7 is-size-6-tablet has-text-weight-light"
+						>(works only here in the preview)</span
+					>
+				</div>
+			</div>
+		</div>
+	{/if}
+	-->
 
 	<div class="container is-fluid px-0">
 		<div>
