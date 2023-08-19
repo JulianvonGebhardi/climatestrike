@@ -485,7 +485,7 @@
 			</div>
 		</div>
 
-		<div class="section has-mw-5xl mx-auto">
+		<div class="section has-mw-5xl mx-auto" id="start-main-content-01">
 			<div class="section container p-0">
 				.
 				<div class="close" id="close_climatestrike" />
@@ -823,7 +823,10 @@
 							</button>
 						</div>
 						<div class="column is-3 -is-offset-3">
-							<a on:click={handleClick} href="/#script_climatestrike">
+							<a
+								on:click={handleClick}
+								href={!checkAllValues() ? '/#start-main-content-01' : '/#script_climatestrike'}
+							>
 								<button class="button is-responsive is-large px-6 is-primary ml-5-tablet">
 									Generate Script-Tag</button
 								></a
